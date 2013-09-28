@@ -1,0 +1,5 @@
+C:\Projects\Projects\Seesmic VideoPreview Plugin\Biggert.Seesmic.VideoPreview\UnitTests\bin\Debug\UnitTests.dll
+C:\Projects\Projects\Seesmic VideoPreview Plugin\Biggert.Seesmic.VideoPreview\UnitTests\bin\Debug\UnitTests.pdb
+C:\Projects\Projects\Seesmic VideoPreview Plugin\Biggert.Seesmic.VideoPreview\UnitTests\obj\Debug\ResolveAssemblyReference.cache
+C:\Projects\Projects\Seesmic VideoPreview Plugin\Biggert.Seesmic.VideoPreview\UnitTests\obj\Debug\UnitTests.dll
+C:\Projects\Projects\Seesmic VideoPreview Plugin\Biggert.Seesmic.VideoPreview\UnitTests\obj\Debug\UnitTests.pdb

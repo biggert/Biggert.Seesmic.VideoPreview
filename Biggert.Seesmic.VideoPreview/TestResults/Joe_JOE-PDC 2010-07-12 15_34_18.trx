@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="d11d03b4-4e07-44cc-9a9f-d3688002155e" name="Joe@JOE-PDC 2010-07-12 15:34:18" runUser="Joe-PDC\Joe" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestSettings name="Local" id="7657ee9f-6b13-4592-87be-03ca8606b8d6">
+    <Description>These are default test settings for a local test run.</Description>
+    <Deployment userDeploymentRoot="C:\Projects\Projects\Seesmic VideoPreview Plugin\Biggert.Seesmic.VideoPreview\TestResults" useDefaultDeploymentRoot="false" enabled="false" runDeploymentRoot="Joe_JOE-PDC 2010-07-12 15_34_18" />
+    <Execution>
+      <TestTypeSpecific />
+      <AgentRule name="Execution Agents">
+      </AgentRule>
+    </Execution>
+  </TestSettings>
+  <Times creation="2010-07-12T15:34:18.0942700-05:00" queuing="2010-07-12T15:34:29.4069171-05:00" start="2010-07-12T15:34:29.8619431-05:00" finish="2010-07-12T15:35:10.6712773-05:00" />
+  <ResultSummary outcome="Error">
+    <Counters total="2" executed="1" error="0" failed="0" timeout="0" aborted="1" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="1" disconnected="0" warning="0" passed="0" completed="0" inProgress="0" pending="0" />
+    <RunInfos>
+      <RunInfo computerName="JOE-PDC" outcome="Error" timestamp="2010-07-12T15:35:10.6692772-05:00">
+        <Text>Test host process exited unexpectedly.</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+  <TestDefinitions>
+    <UnitTest name="YouTube_URIRegEx_Test" storage="c:\projects\projects\seesmic videopreview plugin\biggert.seesmic.videopreview\unittests\bin\debug\unittests.dll" id="8fac5282-02b1-eb62-9222-d3d8be394697">
+      <Execution id="b4bdf0a4-1001-4530-964e-a9cb4ea0a854" />
+      <TestMethod codeBase="C:/Projects/Projects/Seesmic VideoPreview Plugin/Biggert.Seesmic.VideoPreview/UnitTests/bin/Debug/UnitTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="UnitTests.UnitTest1, UnitTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="YouTube_URIRegEx_Test" />
+    </UnitTest>
+    <UnitTest name="YouTubeshort_VidID_Test" storage="c:\projects\projects\seesmic videopreview plugin\biggert.seesmic.videopreview\unittests\bin\debug\unittests.dll" id="3133f1ed-74d7-9ef7-c7a0-7dde16055a41">
+      <Execution id="3be5da82-7d92-42ec-b526-65a4548ac02a" />
+      <TestMethod codeBase="C:/Projects/Projects/Seesmic VideoPreview Plugin/Biggert.Seesmic.VideoPreview/UnitTests/bin/Debug/UnitTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="UnitTests.UnitTest1, UnitTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="YouTubeshort_VidID_Test" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <TestEntries>
+    <TestEntry testId="3133f1ed-74d7-9ef7-c7a0-7dde16055a41" executionId="3be5da82-7d92-42ec-b526-65a4548ac02a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8fac5282-02b1-eb62-9222-d3d8be394697" executionId="b4bdf0a4-1001-4530-964e-a9cb4ea0a854" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <Results>
+    <UnitTestResult executionId="3be5da82-7d92-42ec-b526-65a4548ac02a" testId="3133f1ed-74d7-9ef7-c7a0-7dde16055a41" testName="YouTubeshort_VidID_Test" computerName="JOE-PDC" duration="00:00:40.4343127" startTime="2010-07-12T15:34:30.2369646-05:00" endTime="2010-07-12T15:35:10.6712773-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Aborted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3be5da82-7d92-42ec-b526-65a4548ac02a">
+    </UnitTestResult>
+    <UnitTestResult executionId="b4bdf0a4-1001-4530-964e-a9cb4ea0a854" testId="8fac5282-02b1-eb62-9222-d3d8be394697" testName="YouTube_URIRegEx_Test" computerName="JOE-PDC" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b4bdf0a4-1001-4530-964e-a9cb4ea0a854">
+    </UnitTestResult>
+  </Results>
+</TestRun>

@@ -1,0 +1,3318 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Seesmic.Sdp.Extensibility</name>
+    </assembly>
+    <members>
+        <member name="T:Seesmic.Sdp.Extensibility.Account">
+            <summary>
+            Represents an account of an user on a service.
+            </summary>
+            <example>
+            The following example shows an implementation of the <c>Account</c> abstract class.
+            <code>
+            public class ExampleAccount : Account
+            {
+                public override string Id
+                {
+                    get;
+                    set;
+                }
+               
+                public override string Username
+                {
+                    get;
+                    set;
+                }
+               
+                public override string UserId
+                {
+                    get;
+                    set;
+                }
+               
+                // Gets or sets the token value upon successful OAuth authentication.
+                public string Token
+                {
+                    get;
+                    set;
+                }
+               
+                // Gets or sets the token secret value upon successful OAuth authentication.
+                public string TokenSecret
+                {
+                    get;
+                    set;
+                }
+               
+                public override Guid AccountProviderId
+                {
+                    get { return ExampleAccountProvider.ExampleAccountProviderId; }
+                }
+               
+                public override void UpdateAccount(Account sourceAccount)
+                {
+                    var exampleAccount = (ExampleAccount)sourceAccount;
+               
+                    this.Id = exampleAccount.Id;
+                    this.Username = exampleAccount.Username;
+                    this.UserId = exampleAccount.UserId;
+               
+                    //Update the rest of the custom properties of ExampleAccount class.
+                }
+            }
+            </code>
+            </example>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.Account.UpdateAccount(Seesmic.Sdp.Extensibility.Account)">
+            <summary>
+            Updates this <see cref="T:Seesmic.Sdp.Extensibility.Account"/> with data from sourceAccount.
+            </summary>
+            <param name="sourceAccount">The source <see cref="T:Seesmic.Sdp.Extensibility.Account"/> used to update this account.</param>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.Account.Id">
+            <summary>
+            Gets the unique Id of the account.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.Account.Username">
+            <summary>
+            Gets the username of this account.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.Account.UserId">
+            <summary>
+            Gets the unique Id of the user on the service.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.Account.AccountProviderId">
+            <summary>
+            Gets the Id of the account provider that created this account.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.AccountProvider">
+             <summary>
+             Contract for account providers.
+             </summary>
+             <example>
+             The following example shows an implementation of the <c>AccountProvider</c> abstract class. Check the implementations of the <c>ExampleAccount</c> and <c>ExampleSession</c> classes in the <see cref="T:Seesmic.Sdp.Extensibility.Account"/> and <see cref="T:Seesmic.Sdp.Extensibility.Session"/> code examples.
+             <code>
+             public class ExampleAccountProvider : AccountProvider
+             {
+                 public static readonly Guid ExampleAccountProviderId = new Guid("&lt;Enter your guid here&gt;");
+            
+                 public override Guid Id
+                 {
+                     get { return ExampleAccountProviderId; }
+                 }
+            
+                 public override DataTemplate NewAccountTemplate
+                 {
+                     get 
+                     {
+                         //Normally, you would return a resource which identifies the new account data template for all accounts of type ExampleAccount.
+                         throw new NotImplementedException(); 
+                     }
+                 }
+            
+                 public override DataTemplate EditAccountTemplate
+                 {
+                     get
+                     {
+                         //Normally, you would return a resource which identifies the edit account data template for all accounts of type ExampleAccount.
+                         throw new NotImplementedException();
+                     }
+                 }
+            
+                 public override DataTemplate AccountIcon
+                 {
+                     get
+                     {
+                         //Normally, you would return a resource which identifies the account icon data template for all accounts of type ExampleAccount.
+                         throw new NotImplementedException();
+                     }
+                 }
+            
+                 public override string AccountTypeName
+                 {
+                     get { return "Example Account"; }
+                 }
+            
+                 public override string AccountDomain
+                 {
+                     get { return "www.example.com"; }
+                 }
+            
+                 public override DataTemplate MigrateAccountTemplate
+                 {
+                     get
+                     {
+                         //Normally, you would return a resource which identifies the migrate account data template for all accounts of type ExampleAccount.
+                         throw new NotImplementedException();
+                     }
+                 }
+            
+                 public override Account CreateAccount()
+                 {
+                     return new ExampleAccount();
+                 }
+            
+                 public override void AuthenticateAsync(Account account, object userState, AsyncCompletedCallback callback)
+                 {
+                     //Logic for authenticating the account against a service.
+                 }
+            
+                 public override string SerializeAccount(Account account)
+                 {
+                     //Default xml serialization
+                     var serializer = new XmlSerializer(typeof(ExampleAccount));
+            
+                     var stringBuilder = new StringBuilder();
+                     var xmlWriter = XmlWriter.Create(stringBuilder);
+            
+                     ExampleAccount exampleAccount = (ExampleAccount)account;
+                     serializer.Serialize(xmlWriter, exampleAccount);
+            
+                     return stringBuilder.ToString();
+                 }
+            
+                 public override Account DeserializeAccount(string data)
+                 {
+                     //Default xml deserialization
+                     var serializer = new XmlSerializer(typeof(ExampleAccount));
+            
+                     var account = (ExampleAccount)serializer.Deserialize(new StringReader(data));
+            
+                     return account;
+                 }
+            
+                 public override ISession GetSession(Account account)
+                 {
+                     var exampleAccount = (ExampleAccount)account;
+                     return new ExampleSession(exampleAccount);
+                 }
+            
+                 public override ServerAccount GetServerAccount(Account account)
+                 {
+                     var exampleAccount = (ExampleAccount)account;
+            
+                     return new ServerAccount
+                     {
+                         Domain = AccountDomain,
+                         UserId = exampleAccount.UserId.ToString(),
+                         Username = exampleAccount.Username,
+                         Token = exampleAccount.Token,
+                         TokenSecret = exampleAccount.TokenSecret
+                     };
+                 }
+            
+                 public override Account GetAccount(ServerAccount serverAccount)
+                 {
+                     return new ExampleAccount()
+                     {
+                         UserId = serverAccount.UserId,
+                         Username = serverAccount.Username,
+                         Token = serverAccount.Token,
+                         TokenSecret = serverAccount.TokenSecret,
+                         ServerAccountId = serverAccount.Id,
+                         IsAuthenticated = true
+                     };
+                 }
+            
+                 public override void SynchronizeAccounts(Account localAccount, ServerAccount serverAccount)
+                 {
+                     var exampleAccount = (ExampleAccount)localAccount;
+            
+                     exampleAccount.Token = serverAccount.Token;
+                     exampleAccount.TokenSecret = serverAccount.TokenSecret;
+                 }
+            
+                 public override bool AccountNeedsMigration(Account account)
+                 {
+                     return false;
+                 }
+             }
+             </code>
+             </example>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.AccountProvider.#ctor">
+            <summary>
+            Initializes a new instance of <see cref="T:Seesmic.Sdp.Extensibility.AccountProvider"/> class.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.AccountProvider.CreateAccount">
+            <summary>
+            Creates a new account specific to this provider.
+            </summary>
+            <returns>An empty account data.</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.AccountProvider.AuthenticateAsync(Seesmic.Sdp.Extensibility.Account,System.Object,Seesmic.Sdp.Extensibility.AsyncCompletedCallback)">
+            <summary>
+            Authenticates the specified account.
+            </summary>
+            <param name="account">The account to authenticate.</param>
+            <param name="userState">The unique identifier for the asynchronous task.</param>
+            <param name="callback">Callback to be invoked when authentication completes.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.AccountProvider.SerializeAccount(Seesmic.Sdp.Extensibility.Account)">
+            <summary>
+            Serializes the specified account.
+            </summary>
+            <param name="account">The account instance to serialize.</param>
+            <returns>Account's serialization data.</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.AccountProvider.DeserializeAccount(System.String)">
+            <summary>
+            Deserializes an account.
+            </summary>
+            <param name="data">The serialization data.</param>
+            <returns>The deserialized account.</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.AccountProvider.GetSession(Seesmic.Sdp.Extensibility.Account)">
+            <summary>
+            Creates a session for the specified account.
+            </summary>
+            <param name="account">The account to create a session for.</param>
+            <returns>A session created for that account.</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.AccountProvider.GetServerAccount(Seesmic.Sdp.Extensibility.Account)">
+            <summary>
+            Creates a <see cref="T:Seesmic.Sdp.Extensibility.ServerAccount"/> instance that is used to persist the account data on the server.
+            </summary>
+            <param name="account">The <see cref="T:Seesmic.Sdp.Extensibility.Account"/> instance for which to build the server entity.</param>
+            <returns>A <see cref="T:Seesmic.Sdp.Extensibility.ServerAccount"/> instance wrapping the information from the account.</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.AccountProvider.GetAccount(Seesmic.Sdp.Extensibility.ServerAccount)">
+            <summary>
+            Creates an account from a <see cref="T:Seesmic.Sdp.Extensibility.ServerAccount"/> instance.
+            </summary>
+            <param name="serverAccount">The source <see cref="T:Seesmic.Sdp.Extensibility.ServerAccount"/> instance.</param>
+            <returns>The account instance.</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.AccountProvider.SynchronizeAccounts(Seesmic.Sdp.Extensibility.Account,Seesmic.Sdp.Extensibility.ServerAccount)">
+            <summary>
+            Synchronizes a local <see cref="T:Seesmic.Sdp.Extensibility.Account"/> with a <see cref="T:Seesmic.Sdp.Extensibility.ServerAccount"/> instance.
+            </summary>
+            <param name="localAccount">The local account to synchronize.</param>
+            <param name="serverAccount">The server account to synchronize.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.AccountProvider.AccountNeedsMigration(Seesmic.Sdp.Extensibility.Account)">
+            <summary>
+            Specifies whether the specified account needs to be migrated to an account on the Seesmic server
+            </summary>
+            <param name="account">The account to test whether it needs migrating or not</param>
+            <returns><c>true</c> if the account needs migration, <c>false</c> otherwise</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.AccountProvider.UpdateAccount(Seesmic.Sdp.Extensibility.Account)">
+            <summary>
+            Updates the persisted data associated with the specified account. 
+            This method also updates the associated integration from server when connected to a seesmic profile.
+            </summary>
+            <param name="account">The account instance to update.</param>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.AccountProvider.Id">
+            <summary>
+            Gets the unique id of the account provider.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.AccountProvider.NewAccountTemplate">
+            <summary>
+            Gets the visual template for adding a new account.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.AccountProvider.EditAccountTemplate">
+            <summary>
+            Gets the visual template for editing an existing account.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.AccountProvider.AccountIcon">
+            <summary>
+            Gets the icon to display with the accounts.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.AccountProvider.AccountTypeName">
+            <summary>
+            Gets the account type name displayed in the list of account types in settings dialog.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.AccountProvider.MigrateAccountTemplate">
+            <summary>
+            Gets the data template used for migrating accounts after update.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.AccountProvider.SupportsServerAccount">
+            <summary>
+            Gets a value indicating whether this account provider supports working with server accounts which is needed for synchronization.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.AccountProvider.MaxSupportedAccounts">
+            <summary>
+            Gets a value indicating the maximum number of active accounts that are supported by this provider.
+            </summary>
+            <value>The maximum number of active accounts supported. Default is UInt32.MaxValue.</value>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IAccountService.UpdateAccount(Seesmic.Sdp.Extensibility.AccountProvider,Seesmic.Sdp.Extensibility.Account,System.Boolean)">
+            <summary>
+            Updates the persisted account data for the specified account.
+            </summary>
+            <param name="accountProvider">The account provider that owns the account.</param>
+            <param name="account">The account for which to update the persisted data.</param>
+            <param name="updateOnServer">Specifies whether the account will be update on server too</param>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.ServerAccount">
+            <summary>
+            Entity that supports storing an account data on Seesmic Profile.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ServerAccount.Id">
+            <summary>
+            Gets the Id of the account on server.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ServerAccount.AccountProviderId">
+            <summary>
+            Gets or sets an identifier that uniquely identifies the service the account belongs to. (Ex: "twitter.com")
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ServerAccount.UserId">
+            <summary>
+            Gets or sets an identifier that uniquely identifies the user on the service.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ServerAccount.Username">
+            <summary>
+            Gets or sets the username associated with the account on the service.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ServerAccount.Token">
+            <summary>
+            Gets or sets the OAuth token used to authenticate to the service.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ServerAccount.TokenSecret">
+            <summary>
+            Gets or sets the OAuth token secret used to authenticate to the service.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.AsyncCompletedEventArgs`1">
+            <summary>
+            Carries event data for asynchronous operations that must return a result.
+            </summary>
+            <typeparam name="T">The result type of the asynchronous operation</typeparam>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.AsyncCompletedEventArgs`1.#ctor(System.Exception,System.Boolean,System.Object,`0)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Extensibility.AsyncCompletedEventArgs`1"/> class.
+            </summary>
+            <param name="error">The error that occured during the asynchronous operation.</param>
+            <param name="cancelled">If set to <c>true</c> indicates that the operation was cancelled.</param>
+            <param name="userState">The object supplied by the user at the time of the request.</param>
+            <param name="result">The result of the asynchronous operation.</param>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.AsyncCompletedEventArgs`1.Result">
+            <summary>
+            Gets or sets the result of the asynchronous operation.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.AutoCompleteContext">
+            <summary>
+            Stores the autocomplete data available in a certain context.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.AutoCompleteContext._SynchronizationContext">
+            <summary>
+            Stores the synchronization context of the thread that created this instance.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.AutoCompleteContext._Keywords">
+            <summary>
+            Stores the keywords available in this autocomplete context.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.AutoCompleteContext._ReadOnlyKeywords">
+            <summary>
+            Stores a read only view over the keywords collection.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.AutoCompleteContext.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Extensibility.AutoCompleteContext"/> class.
+            </summary>
+            <param name="queryText">The query text.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.AutoCompleteContext.#ctor(System.String,System.String[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Extensibility.AutoCompleteContext"/> class.
+            </summary>
+            <param name="queryText">The query text.</param>
+            <param name="keywords">The keywords to prepopulate the list.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.AutoCompleteContext.ClearKeywords">
+            <summary>
+            Clears all the keywords in the context.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.AutoCompleteContext.AddKeyword(System.String)">
+            <summary>
+            Adds a keyword to the current autocomplete context.
+            </summary>
+            <param name="keyword">The keyword to add.</param>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.AutoCompleteContext.QueryText">
+            <summary>
+            Gets the query text that generated the request.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.AutoCompleteContext.Keywords">
+            <summary>
+            Gets the keywords available in the current context.
+            </summary>
+            <remarks>Due to performance reasons, this member is deprecated. Please use Keywords2 instead.</remarks>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.AutoCompleteContext.Keywords2">
+            <summary>
+            Gets the keywords available in the current context.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.AutoCompleteContext.KeywordsCollection">
+            <summary>
+            Represents a collection of keywords used in autocomplete scenarios.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.AutoCompleteContext.KeywordsCollection.Clear">
+            <summary>
+            This operation is not supported.
+            </summary>
+            <remarks>This method always throws a <see cref="T:System.NotSupportedException"/> exception</remarks>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.AutoCompleteContext.KeywordsCollection.Add(System.String)">
+            <summary>
+            This operation is not intended for public use. Please use <see cref="M:Seesmic.Sdp.Extensibility.AutoCompleteContext.AddKeyword(System.String)"/> instead.
+            </summary>
+            <param name="item">The item to be added to the collection.</param>
+            <remarks>This method always throws a <see cref="T:System.NotSupportedException"/> exception</remarks>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.AutoCompleteContext.KeywordsCollection.Contains(System.String)">
+            <summary>
+            Determines whether the KeywordCollection contains a keyword
+            </summary>
+            <param name="keyword">The keyword to locate in the collection.</param>
+            <returns><c>true</c> if the keyword is found in the collection; otherwise <c>false</c>.</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.AutoCompleteContext.KeywordsCollection.CopyTo(System.String[],System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.AutoCompleteContext.KeywordsCollection.Remove(System.String)">
+            <summary>
+            This operation is not supported.
+            </summary>
+            <param name="item">The item to remove from the collection.</param>
+            <returns><c>true</c> if the item was successfully removed; otherwise, <c>false</c>.</returns>
+            <remarks>This method always throws a <see cref="T:System.NotSupportedException"/> exception</remarks>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.AutoCompleteContext.KeywordsCollection.GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the collection.
+            </summary>
+            <returns>An enumerator for the collection.</returns>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.AutoCompleteContext.KeywordsCollection.Count">
+            <summary>
+            Gets the number of keywords in the collection.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.AutoCompleteContext.KeywordsCollection.IsReadOnly">
+            <summary>
+            Gets a value indicating whether the KeywordsCollection is read-only. This member always returns true.
+            </summary>
+            <remarks>This member always returns true.</remarks>
+        </member>
+        <member name="E:Seesmic.Sdp.Extensibility.AutoCompleteContext.KeywordsCollection.CollectionChanged">
+            <inheritdoc />
+        </member>
+        <member name="E:Seesmic.Sdp.Extensibility.AutoCompleteContext.KeywordsCollection.PropertyChanged">
+            <inheritdoc />
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.DataProvider">
+            <summary>
+            Base class for custom data providers.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.TimelineItemsProvider.OnItemProcessed(Seesmic.Sdp.Extensibility.ProcessingResult)">
+            <summary>
+            Called after an item has been processed by the pipeline.
+            </summary>
+            <param name="result">The result of the processing.</param>
+        </member>
+        <member name="E:Seesmic.Sdp.Extensibility.TimelineItemsProvider.ItemAdded">
+            <summary>
+            Raised when the provider needs to send a new item to the processing pipeline.
+            </summary>
+        </member>
+        <member name="E:Seesmic.Sdp.Extensibility.TimelineItemsProvider.ItemRemoved">
+            <summary>
+            Raised when the provider wants to withdraw an item from core.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.DataProvider.Start">
+            <summary>
+            Signals the data provider that it can start fetching data.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.DataProvider.Stop">
+            <summary>
+            Signals the data provider that is should stop fetching data.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.DataProvider.Id">
+            <summary>
+            Gets the Id of the data provider.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.DataProvider.SidebarAction">
+            <summary>
+            Gets the sidebar action to be added for this data provider.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.IPlugin">
+            <summary>
+            Contract implemented by plugins.
+            </summary>
+            <remarks>This interface is deprecated. Please use <see cref="T:Seesmic.Sdp.Extensibility.Plugin"/> abstract class instead.</remarks>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IPlugin.Initialize">
+            <summary>
+            Initializes the plugin.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IPlugin.CommitSettings">
+            <summary>
+            Instructs the plugin to commit all changes made on the settings page.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IPlugin.RevertSettings">
+            <summary>
+            Instructs the plugin to revert all changes made on the settings page.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IPlugin.Id">
+            <summary>
+            Gets the Id of the plugin.
+            </summary>
+            <remarks>This value is used to match the plugin package with the IPlugin instance.</remarks>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IPlugin.SettingsTemplate">
+            <summary>
+            Gets the UI template used to edit settings for this plugin, or null if it doesn't support settings.
+            </summary>
+            <remarks>The DataContext of the template will be set to the instance of the plugin.</remarks>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.IPrivacyPostingProvider">
+            <summary>
+            Contract for posting providers that supports extended privacy features.
+            </summary>
+            <remarks>This interface is deprecated. Please use <see cref="T:Seesmic.Sdp.Extensibility.PostingProvider"/> abstract class instead.</remarks>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.IPostingProvider">
+            <summary>
+            Contract for posting providers.
+            </summary>
+            <remarks>This interface is deprecated. Please use <see cref="T:Seesmic.Sdp.Extensibility.PostingProvider"/> abstract class instead.</remarks>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IPostingProvider.CanPost(Seesmic.Sdp.Extensibility.PostContainer)">
+            <summary>
+            Returns a value indicating if this provider supports posting the specified message.
+            </summary>
+            <param name="postContainer">The posting container holding message and metadata.</param>
+            <returns><c>true</c> if the message can be posted; <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IPostingProvider.PostAsync(Seesmic.Sdp.Extensibility.PostContainer,System.Object,Seesmic.Sdp.Extensibility.AsyncCompletedCallback)">
+            <summary>
+            Posts the specified message.
+            </summary>
+            <param name="postContainer">The posting container holding message and metadata.</param>
+            <param name="userState">The unique identifier for the asynchronous task.</param>
+            <param name="callback">The callback to be invoked when the action completes.</param>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IPostingProvider.Id">
+            <summary>
+            Gets the unique Id of the posting provider.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IPostingProvider.Icon">
+            <summary>
+            Gets the icon of the posting provider.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IPostingProvider.Text">
+            <summary>
+            Gets the name of the posting provider.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IPrivacyPostingProvider.GetPrivacyInfo(Seesmic.Sdp.Extensibility.PostContainer)">
+            <summary>
+            Requests privacy information for the specified <see cref="T:Seesmic.Sdp.Extensibility.PostContainer"/> instance.
+            </summary>
+            <param name="postContainer">The <see cref="T:Seesmic.Sdp.Extensibility.PostContainer"/> instance.</param>
+            <returns>A <see cref="T:Seesmic.Sdp.Extensibility.PostPrivacyInfo"/> instance containing privacy information for the specified container.</returns>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.ISupportsSettings">
+            <summary>
+            Contract for posting providers.
+            </summary>
+            <remarks>This interface is deprecated. Please use <see cref="T:Seesmic.Sdp.Extensibility.PostingProvider"/> abstract class instead.</remarks>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ISupportsSettings.SettingsTemplate">
+            <summary>
+            Gets the visual template for posting settings.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.ITrustPlugin">
+            <summary>
+            Contract for plugins that need to use protected features.
+            </summary>
+            <remarks>This interface is deprecated. Please use <see cref="T:Seesmic.Sdp.Extensibility.Plugin"/> abstract class instead.</remarks>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ITrustPlugin.Secret">
+            <summary>
+            Sets the secret key that Core uses to establish trust relationship with the plugin.
+            </summary>
+            <remarks>
+            Plugin implementors should not expose a public getter for this key in order to avoid other plugins to see it.
+            </remarks>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.NotificationProvider">
+            <summary>
+            Supports notification providers from plugins.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.NotificationProvider.CommitSettings">
+            <summary>
+            Called when the changes done to the settings of this provider need to be applied.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.NotificationProvider.RevertSettings">
+            <summary>
+            Called when the changes done to the settings of this provider need to be reverted.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.NotificationProvider.IsEnabled">
+            <summary>
+            Gets or sets a value indicating whether this notification provider is enabled or not.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.NotificationProvider.Icon">
+            <summary>
+            Gets the icon to display next to the notification provider.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.NotificationProvider.Text">
+            <summary>
+            Gets the name of the notification provider.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.NotificationProvider.SettingsTemplate">
+            <summary>
+            Gets the template used to adjust settings for this instance.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.NotificationProviderCategory">
+            <summary>
+            Specified notification provider categories.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.Plugin">
+            <summary>
+            Contract implemented by plugins.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.Plugin._Secret">
+            <summary>
+            The secret key that Core uses to establish trust relationship with the plugin.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.Plugin.Initialize">
+            <summary>
+            Initializes the plugin.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.Plugin.CommitSettings">
+            <summary>
+            Instructs the plugin to commit all changes made on the settings page.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.Plugin.RevertSettings">
+            <summary>
+            Instructs the plugin to revert all changes made on the settings page.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.Plugin.Id">
+            <summary>
+            Gets the Id of the plugin.
+            </summary>
+            <remarks>This value is used to match the plugin package with the IPlugin instance.</remarks>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.Plugin.SettingsTemplate">
+            <summary>
+            Gets the UI template used to edit settings for this plugin, or null if it doesn't support settings.
+            </summary>
+            <remarks>The DataContext of the template will be set to the instance of the plugin.</remarks>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.Plugin.Secret">
+            <summary>
+            Sets the secret key that Core uses to establish trust relationship with the plugin.
+            </summary>
+            <remarks>
+            Plugin implementors should not expose a public getter for this key in order to avoid other plugins to see it.
+            </remarks>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.Plugin.PluginIcon">
+            <summary>
+            Gets a data template which represents the icon of the plugin.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.Profile">
+            <summary>
+            Represents a profile (user profile or message profile) that can be displayed in profile panel.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.Profile.OnProfilePanelStateChanged">
+            <summary>
+            Invoked when the state of the profile panel changes.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.Profile.Icon">
+            <summary>
+            Gets the icon to display in the header.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.Profile.Title">
+            <summary>
+            Gets the title to display in the header.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.Profile.ContentTemplate">
+            <summary>
+            Gets the template to use for displaying profile.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.CoreServices">
+            <summary>
+            Provides access to core services. This is not intended to be used from Core's code.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.CoreServices.AccountService">
+            <summary>
+            Gets a reference to the account service.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.IPostingProcessor">
+            <summary>
+            Contract for clients that want to hook up into posting pipeline.
+            </summary>
+            <remarks>This interface is deprecated. Please use <see cref="T:Seesmic.Sdp.Extensibility.PostingProcessor"/> abstract class instead.</remarks>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IPostingProcessor.PreProcessPost(Seesmic.Sdp.Extensibility.PostContainer)">
+            <summary>
+            Allows implementors to provide preprocessing logic for the post container.
+            </summary>
+            <param name="postContainer">The post container instance.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IPostingProcessor.PostProcessPost(Seesmic.Sdp.Extensibility.PostContainer,Seesmic.Sdp.Extensibility.IPostingProvider[])">
+            <summary>
+            Allows implementors to provide postprocessing logic for the post container.
+            </summary>
+            <param name="postContainer">The post container instance.</param>
+            <param name="postingProviders">The posting providers that received the post.</param>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.ISearchProvider2">
+            <summary>
+            Contract for search providers.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.ISearchProvider">
+            <summary>
+            Contract for search providers.
+            </summary>
+            <remarks>This interface is deprecated. Please use <see cref="T:Seesmic.Sdp.Extensibility.ISearchProvider2"/> interface instead.</remarks>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.ISearchProvider.Search(System.String)">
+            <summary>
+            Executes the search for the specified query.
+            </summary>
+            <param name="query">The query to search for.</param>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ISearchProvider.Icon">
+            <summary>
+            Gets the icon of the search provider.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ISearchProvider.Name">
+            <summary>
+            Gets the name of the search provider.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ISearchProvider.HintText">
+            <summary>
+            Gets the hint text of the search provider.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ISearchProvider2.Id">
+            <summary>
+            Gets the unique Id of the search provider.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.IPluginFeature">
+            <summary>
+            Represents a feature that a plugin could expose.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IPluginFeature.Id">
+            <summary>
+            Gets the Id of the plugin feature.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IPluginFeature.Name">
+            <summary>
+            Gets the name of the plugin feature.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IPluginFeature.Description">
+            <summary>
+            Gets the description of the plugin feature.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.RequestFeatureResult`1">
+            <summary>
+            Carries the result of a request for a protected feature.
+            </summary>
+            <typeparam name="T">The type of <see cref="T:Seesmic.Sdp.Extensibility.IPluginFeature"/>.</typeparam>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.RequestFeatureResult`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Extensibility.RequestFeatureResult`1"/> class.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.RequestFeatureResult`1.#ctor(`0)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Extensibility.RequestFeatureResult`1"/> class.
+            </summary>
+            <param name="allowedFeature">The feature that the user allowed access to.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.RequestFeatureResult`1.#ctor(System.Boolean,System.Boolean,System.Exception,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Extensibility.RequestFeatureResult`1"/> class.
+            </summary>
+            <param name="cancelled">if set to <c>true</c> indicates that the user cancelled the request.</param>
+            <param name="denied">if set t <c>true</c> indicates that the feature request was denied.</param>
+            <param name="error">The error that occured when serving the request.</param>
+            <param name="noneAvailable">if set to <c>true</c> indicates that there are no features satisfying the specified request.</param>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.RequestFeatureResult`1.Feature">
+            <summary>
+            Gets the feature that the user allowed access to.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.RequestFeatureResult`1.Cancelled">
+            <summary>
+            Gets a value indicating whether the user cancelled the request.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.RequestFeatureResult`1.Denied">
+            <summary>
+            Gets a value indicating whether the user denied access to the feature.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.RequestFeatureResult`1.Error">
+            <summary>
+            Gets the error that occured during the request
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.RequestFeatureResult`1.NoneAvailable">
+            <summary>
+            Gets a value indicating if there are no features matching the issued request.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.IAutoCompleteProvider">
+            <summary>
+            Contract which must be implemented in order to provide autocomplete functionality.
+            </summary>
+            <example>
+            The following example shows an implementation of the <c>IAutoCompleteProvider</c> interface, called <c>ExampleAutoCompleteProvider</c>.
+            <code>
+            public class ExampleAutoCompleteProvider : IAutoCompleteProvider
+            {
+                //Regular expresion for Twitter like usernames (@username).
+                public static readonly Regex UsernameRegex = new Regex(@"(\B|\A)@([A-Za-z0-9_]+)");
+            
+                public Guid Id
+                {
+                    get { return new Guid("&lt;Enter your guid here&gt;"); }
+                }
+            
+                public static List&lt;string&gt; Words
+                {
+                    get;
+                    private set;
+                }
+            
+                public Regex[] RegexTriggers
+                {
+                    get { return new[] { UsernameRegex }; }
+                }
+            
+                public void FillAutoCompleteContext(AutoCompleteContext context)
+                {
+                    Words.ForEach(w => context.AddKeyword(w));
+                }
+            
+                public static void AddWords(IEnumerable&lt;string&gt; words)
+                {
+                    Words.AddRange(words);
+                }
+            }
+            </code>
+            </example>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IAutoCompleteProvider.FillAutoCompleteContext(Seesmic.Sdp.Extensibility.AutoCompleteContext)">
+            <summary>
+            Allows the autocomplete provider to add its data to the current <see cref="T:Seesmic.Sdp.Extensibility.AutoCompleteContext"/> instance.
+            </summary>
+            <param name="context">The <see cref="T:Seesmic.Sdp.Extensibility.AutoCompleteContext"/> instance to fill.</param>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IAutoCompleteProvider.Id">
+            <summary>
+            Gets the unique id of the autocomplete provider.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IAutoCompleteProvider.RegexTriggers">
+            <summary>
+            Gets an array of <see cref="T:System.Text.RegularExpressions.Regex"/> objects which trigger the autocomplete functionaliy (e.g. opening a context menu with keywords).
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.IColumnAction">
+            <summary>
+            Defines an action that can be attached to a column view.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IColumnAction.CanExecute(Seesmic.Sdp.Extensibility.IColumnView)">
+            <summary>
+            Returns a value indicating if this method can be executed at a particular time.
+            </summary>
+            <param name="columnView">The attached column view.</param>
+            <returns><c>true</c> if the action can be executed, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IColumnAction.Execute(Seesmic.Sdp.Extensibility.IColumnView)">
+            <summary>
+            Executes the action.
+            </summary>
+            <param name="columnView">The attached column view.</param>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IColumnAction.Text">
+            <summary>
+            Gets the text displayed in the header menu for this action.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IColumnAction.Icon">
+            <summary>
+            Defines the DataTemplate used for the icon.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.AsyncCompletedCallback">
+            <summary>
+            Callback signature for asynchronous callbacks.
+            </summary>
+            <param name="sender">The object which calls an instance of AsyncCompletedCallback.</param>
+            <param name="e">An <see cref="T:System.ComponentModel.AsyncCompletedEventArgs"/> object which provides information about action that was executed.</param>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.AsyncCompletedCallback`1">
+            <summary>
+            Callback signature for asynchronous callbacks that return data.
+            </summary>
+            <typeparam name="T">The type of the data returned by the action that is executed.</typeparam>
+            <param name="sender">The object which calls an instance of AsyncCompletedCallback.</param>
+            <param name="e">An <see cref="T:Seesmic.Sdp.Extensibility.AsyncCompletedEventArgs`1"/> object which provides information about action that was executed.</param>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.GeoLocation">
+            <summary>
+            Class used for storing geospatial data.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.GeoLocation.#ctor(System.Double,System.Double)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Extensibility.GeoLocation"/> struct.
+            </summary>
+            <param name="latitude">The latitude coordinate.</param>
+            <param name="longitude">The longitude coordinate.</param>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.GeoLocation.Latitude">
+            <summary>
+            Gets the latitude coordinate.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.GeoLocation.Longitude">
+            <summary>
+            Gets the longitude coordinate.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.IDataProvider">
+            <summary>
+            Contract for custom data providers.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.ITimelineItemsProvider">
+            <summary>
+            Contract for sources that can provide timeline items.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.ITimelineItemsProvider.OnItemProcessed(Seesmic.Sdp.Extensibility.ProcessingResult)">
+            <summary>
+            Called after an item has been processed by the pipeline.
+            </summary>
+            <param name="result">The result of the processing.</param>
+        </member>
+        <member name="E:Seesmic.Sdp.Extensibility.ITimelineItemsProvider.ItemAdded">
+            <summary>
+            Raised when the provider needs to send a new item to the processing pipeline.
+            </summary>
+        </member>
+        <member name="E:Seesmic.Sdp.Extensibility.ITimelineItemsProvider.ItemRemoved">
+            <summary>
+            Raised when the provider wants to withdraw an item from core.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IDataProvider.Start">
+            <summary>
+            Signals the data provider that it can start fetching data.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IDataProvider.Stop">
+            <summary>
+            Signals the data provider that is should stop fetching data.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IDataProvider.Id">
+            <summary>
+            Gets the Id of the data provider.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IDataProvider.SidebarAction">
+            <summary>
+            Gets the sidebar action to be added for this data provider.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.IImagePostingProvider">
+            <summary>
+            Contract for image posting providers.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IImagePostingProvider.UploadAsync(System.IO.FileInfo,System.Object,Seesmic.Sdp.Extensibility.AsyncCompletedCallback{System.String})">
+            <summary>
+            Posts the specified image.
+            </summary>
+            <param name="selectedFile">The <see cref="T:System.IO.FileInfo"/> object which identifies the image to post.</param>
+            <param name="userState">The unique identifier for the asynchronous task.</param>
+            <param name="callback">The callback to be invoked when the action completes.</param>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IImagePostingProvider.Id">
+            <summary>
+            Gets the unique Id of the image posting provider.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IImagePostingProvider.Icon">
+            <summary>
+            Gets the icon of the image posting provider.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IImagePostingProvider.Text">
+            <summary>
+            Gets the name of the image posting provider.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.ILogService">
+            <summary>
+            Provides logging service to the plugins.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.ILogService.Info(System.Object)">
+            <summary>
+            Records an informational message to the application log.
+            </summary>
+            <param name="message">The object representing the message.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.ILogService.Warning(System.Object)">
+            <summary>
+            Records a warning to the application log.
+            </summary>
+            <param name="message">The object representing the message.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.ILogService.Warning(System.Object,System.Exception)">
+            <summary>
+            Records a warning to the application log.
+            </summary>
+            <param name="message">The object representing the message.</param>
+            <param name="exception">The exception that is subject of the warning.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.ILogService.Error(System.Object)">
+            <summary>
+            Records an error to the application log.
+            </summary>
+            <param name="message">The object representing the message.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.ILogService.Error(System.Object,System.Exception)">
+            <summary>
+            Records an error to the application log.
+            </summary>
+            <param name="message">The object representing the message.</param>
+            <param name="exception">The exception that is subject of the error.</param>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.IProfile">
+            <summary>
+            Represents a profile (user profile or message profile) that can be displayed in profile panel.
+            </summary>
+            <remarks>This interface is deprecated. Please use <see cref="T:Seesmic.Sdp.Extensibility.Profile"/> abstract class instead.</remarks>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IProfile.Icon">
+            <summary>
+            Gets the icon to display in the header.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IProfile.Title">
+            <summary>
+            Gets the title to display in the header.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IProfile.ContentTemplate">
+            <summary>
+            Gets the template to use for displaying profile.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.IProtectedFeature">
+            <summary>
+            Represents a protected feature that a plugin could expose.
+            </summary>
+            <remarks>When a <see cref="T:Seesmic.Sdp.Extensibility.IProtectedFeature"/> is requested, a dialog is presented to the user. The feature can be used only if the user accepts.
+            This is not the case for <see cref="T:Seesmic.Sdp.Extensibility.IPluginFeature"/>s</remarks>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.ISessionService">
+            <summary>
+            Contract for the session service provided by core.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.ISessionService.RegisterTimelineItemsProvider(Seesmic.Sdp.Extensibility.TimelineItemsProvider)">
+            <summary>
+            Registers a timeline item provider with the session service.
+            </summary>
+            <param name="timelineItemsProvider">The timeline item provider to register.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.ISessionService.UnregisterTimelineItemsProvider(Seesmic.Sdp.Extensibility.TimelineItemsProvider)">
+            <summary>
+            Unregisters a timeline item provider from the session service.
+            </summary>
+            <param name="timelineItemsProvider">The timeline item providers to unregister.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.ISessionService.RegisterTimelineItemsProvider(Seesmic.Sdp.Extensibility.ITimelineItemsProvider)">
+            <summary>
+            Registers a timeline item provider with the session service.
+            </summary>
+            <param name="timelineItemsProvider">The timeline item provider to register.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.ISessionService.UnregisterTimelineItemsProvider(Seesmic.Sdp.Extensibility.ITimelineItemsProvider)">
+            <summary>
+            Unregisters a timeline item provider from the session service.
+            </summary>
+            <param name="timelineItemsProvider">The timeline item providers to unregister.</param>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ISessionService.TimelineItemContainers">
+            <summary>
+            Gets the master cache collection of timeline item containers.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.IShortUrlProvider">
+            <summary>
+            Contract for short url providers.
+            </summary>
+            <remarks>This interface is deprecated. Please use <see cref="T:Seesmic.Sdp.Extensibility.ShortUrlProvider"/> abstract class instead.</remarks>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IShortUrlProvider.ShortUrlAsync(System.String,System.Object,Seesmic.Sdp.Extensibility.AsyncCompletedCallback{System.String})">
+            <summary>
+            Shortenes the specified long url.
+            </summary>
+            <param name="longURL">The long url which needs to be shortened.</param>
+            <param name="userState">The unique identifier for the asynchronous task.</param>
+            <param name="callback">The callback to be invoked when the action completes.</param>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IShortUrlProvider.Id">
+            <summary>
+            Gets the unique Id of the short url provider.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IShortUrlProvider.Icon">
+            <summary>
+            Gets the icon of the short url provider.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IShortUrlProvider.Text">
+            <summary>
+            Gets the name of the short url provider.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.ISearchService">
+            <summary>
+            Contract exposed by the core Search Service.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.ISearchService.RegisterSearchProvider(Seesmic.Sdp.Extensibility.ISearchProvider)">
+            <summary>
+            Register the specified search provider with the search service.
+            </summary>
+            <param name="searchProvider">The search provider to register.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.ISearchService.UnregisterSearchProvider(Seesmic.Sdp.Extensibility.ISearchProvider)">
+            <summary>
+            Unregister the specified search provider from the search service.
+            </summary>
+            <param name="searchProvider">The search provider to unregister.</param>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.IStorageService">
+            <summary>
+            Contract for adding, modifying, reading and deleting settings.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IStorageService.SetValue``1(System.Guid,System.String,``0)">
+            <summary>
+            Saves value for a specified key.
+            </summary>
+            <typeparam name="T">The type of the passed value.</typeparam>
+            <param name="pluginId">The ID of the plugin.</param>
+            <param name="key">The key to be modified.</param>
+            <param name="value">The value to be saved.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IStorageService.GetValue``1(System.Guid,System.String)">
+            <summary>
+            Returns the value for a specified key.
+            </summary>
+            <typeparam name="T">The type to be returned.</typeparam>
+            <param name="pluginId">The ID of the plugin.</param>
+            <param name="key">The key to return the value for.</param>
+            <returns>An object of specified type or an exception if the key value is not found.</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IStorageService.GetValue``1(System.Guid,System.String,``0)">
+            <summary>
+            Returns the value for a specified key.
+            </summary>
+            <typeparam name="T">The type to be returned.</typeparam>
+            <param name="pluginId">The ID of the plugin.</param>
+            <param name="key">The key to return the value for.</param>
+            <param name="fallbackValue">The value to be returned if the key value is not found.</param>
+            <returns>An object of specified type or the fallbackValue if the key value is not found.</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IStorageService.DeleteValue(System.Guid,System.String)">
+            <summary>
+            Used to delete a key from settings.
+            </summary>
+            <param name="pluginId">The ID of the plugin.</param>
+            <param name="key">The key to be deleted.</param>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.IFeatureService">
+            <summary>
+            Service that provides a standardized way for plugins to exchange features.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IFeatureService.RegisterFeature(System.Guid,Seesmic.Sdp.Extensibility.IPluginFeature)">
+            <summary>
+            Registers a feature with the feature service.
+            </summary>
+            <param name="secret">The secret key used to identify the plugin providing the feature.</param>
+            <param name="feature">The feature to register.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IFeatureService.UnregisterFeature(System.Guid,System.String)">
+            <summary>
+            Unregisters a feature from the trust service.
+            </summary>
+            <param name="secret">The secret key used to identify the plugin providing the feature.</param>
+            <param name="featureId">The id of the feature to unregister.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IFeatureService.RequestFeature(System.Guid,System.String,System.Action{Seesmic.Sdp.Extensibility.RequestFeatureResult{Seesmic.Sdp.Extensibility.IPluginFeature}})">
+            <summary>
+            Requests a plugin feature from core.
+            </summary>
+            <param name="secret">The secret key used to identify the consumer plugin.</param>
+            <param name="featureId">The Id of the feature being requested.</param>
+            <param name="callback">The callback to be invoked after the request was resolved.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IFeatureService.RequestFeature(System.Guid,System.String,System.Object,System.Action{Seesmic.Sdp.Extensibility.RequestFeatureResult{Seesmic.Sdp.Extensibility.IPluginFeature}})">
+            <summary>
+            Requests a plugin feature from core specifying a pre-filter to apply to features.
+            </summary>
+            <param name="secret">The secret key used to identify the consumer plugin.</param>
+            <param name="propertyName">The property name to filter by.</param>
+            <param name="filterValue">The value to filter the feature properties.</param>
+            <param name="callback">The callback to be invoked after the request was solved.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IFeatureService.RequestFeature``1(System.Guid,System.Action{Seesmic.Sdp.Extensibility.RequestFeatureResult{``0}})">
+            <summary>
+            Requests a plugin features from core.
+            </summary>
+            <param name="secret">The secret key used to identify the consumer plugin.</param>
+            <param name="callback">The callback to be invoked after the request was solved.</param>
+            <typeparam name="T">The type of the requested features.</typeparam>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IFeatureService.RequestFeature``1(System.Guid,System.String,System.Object,System.Action{Seesmic.Sdp.Extensibility.RequestFeatureResult{``0}})">
+            <summary>
+            Requests a plugin feature from core specifying a pre-filter to apply to features.
+            </summary>
+            <param name="secret">The secret key used to identify the consumer plugin.</param>
+            <param name="propertyName">The property name to filter by.</param>
+            <param name="filterValue">The value to filter the feature properties.</param>
+            <param name="callback">The callback to be invoked after the request was solved.</param>
+            <typeparam name="T">The type of the requested feature.</typeparam>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.BarNotificationInfo">
+            <summary>
+            Provides information for displaying a bar notification on the top of the window.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.NotificationInfo">
+            <summary>
+            Provides basic information for displaying notifications.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.NotificationInfo.#ctor(System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Extensibility.NotificationInfo"/> class.
+            </summary>
+            <param name="initialize">Specifies whether to initialize the members with default values.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.NotificationInfo.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Extensibility.NotificationInfo"/> class.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.NotificationInfo.Dismiss">
+            <summary>
+            Dismisses this notification.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.NotificationInfo.AutoDismiss">
+            <summary>
+            Gets or sets a value indicating if the notification should be dismissed automatically after a standard timeout.
+            Default is true.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.NotificationInfo.QueueTimeout">
+            <summary>
+            Gets or sets the timeout after which the notification is expired if it has not been displayed yet.
+            Specify TimeSpan.MaxValue for infinite timeout. Default is 10 minutes.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.NotificationInfo.IsDismissed">
+            <summary>
+            Gets a value indicating whether this notification was dismissed.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.NotificationInfo.SoundSource">
+            <summary>
+            Gets or sets the source of the sound played when showing the notification.
+            When this is set the SoundStream and SoundType are set to null/None.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.NotificationInfo.SoundStream">
+            <summary>
+            Gets or sets the source stream of the sound played when showing the notification
+            When this is set the SoundSource and SoundType are set to null/None.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.NotificationInfo.SoundType">
+            <summary>
+            Gets or sets the SoundType for the sound played when showing the notification.
+            Is needed for using a sound provided by the application.
+            When this is set the SoundSource and SoundStream are set to null.
+            </summary>
+        </member>
+        <member name="E:Seesmic.Sdp.Extensibility.NotificationInfo.Dismissed">
+            <summary>
+            Occurs when the notification is dismissed, either automatically or by the user.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.BarNotificationInfo.Text">
+            <summary>
+            Gets or sets the text to display in the notification.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.BarNotificationInfo.Command">
+            <summary>
+            Gets or sets a command to be invoked if the user clicks on the notification.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.BarNotificationInfo.CommandParameter">
+            <summary>
+            Gets or sets the command parameter of the associated notification command.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.BarNotificationInfo.Kind">
+            <summary>
+            Gets or sets a value indicating the kind of the notification to display.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.BarNotificationKind">
+            <summary>
+            Contains a list of bar notifications types.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.BarNotificationKind.Info">
+            <summary>
+            Information notification bar type
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.BarNotificationKind.Error">
+            <summary>
+            Error notification bar type
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.BarNotificationKind.Warning">
+            <summary>
+            Warning notification bar type
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.BarNotificationKind.Success">
+            <summary>
+            Success notification bar type
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.DialogNotificationButtons">
+            <summary>
+            Contains a list of dialog notification buttons.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.DialogNotificationButtons.OK">
+            <summary>
+            OK button.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.DialogNotificationButtons.Cancel">
+            <summary>
+            Cancel button.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.DialogNotificationButtons.OKCancel">
+            <summary>
+            OK and Cancel buttons.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.DialogNotificationButtons.YesNo">
+            <summary>
+            Yes and No buttons.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.DialogNotificationButtons.YesNoCancel">
+            <summary>
+            Yes, No and Cancel buttons.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.DialogNotificationButtons.Close">
+            <summary>
+            Close button.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.DialogNotificationInfo">
+            <summary>
+            Provides basic information for displaying dialog notifications.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.DialogNotificationInfo.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Extensibility.DialogNotificationInfo"/> class.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.DialogNotificationInfo.AutoDismiss">
+            <summary>
+            Not supported. Throws <see cref="T:System.NotSupportedException"/> on get and set.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.DialogNotificationInfo.QueueTimeout">
+            <summary>
+            Not supported. Throws <see cref="T:System.NotSupportedException"/> on get and set.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.DialogNotificationInfo.Title">
+            <summary>
+            Gets or sets the title of the <see cref="T:Seesmic.Sdp.Extensibility.DialogNotificationInfo"/>.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.DialogNotificationInfo.Text">
+            <summary>
+            Gets or sets the text of the <see cref="T:Seesmic.Sdp.Extensibility.DialogNotificationInfo"/>.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.DialogNotificationInfo.Buttons">
+            <summary>
+            Gets or sets the buttons of the <see cref="T:Seesmic.Sdp.Extensibility.DialogNotificationInfo"/>.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.DialogNotificationInfo.DialogResult">
+            <summary>
+            Gets or sets the dialog result of the <see cref="T:Seesmic.Sdp.Extensibility.DialogNotificationInfo"/>.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.NotificationSoundType">
+            <summary>
+            Contains a list of notification sound types.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.NotificationSoundType.None">
+            <summary>
+            No sound.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.NotificationSoundType.Info">
+            <summary>
+            Information sound type.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.NotificationSoundType.Error">
+            <summary>
+            Error sound type.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.NotificationSoundType.Warning">
+            <summary>
+            Warning sound type.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.NotificationSoundType.Success">
+            <summary>
+            Success sound type.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.NotificationSoundType.Personal">
+            <summary>
+            Personal sound type.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.ToastNotificationInfo">
+            <summary>
+            Provides basic information for displaying toast notifications.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ToastNotificationInfo.Icon">
+            <summary>
+            Gets the icon to display.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ToastNotificationInfo.Header">
+            <summary>
+            Gets or sets the header.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ToastNotificationInfo.HeaderTemplate">
+            <summary>
+            Gets or sets the visual template for the header.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ToastNotificationInfo.Content">
+            <summary>
+            Gets or sets the content.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ToastNotificationInfo.ContentTemplate">
+            <summary>
+            Gets or sets the visual template for the content.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ToastNotificationInfo.PluginId">
+            <summary>
+            Gets or sets associated plugin id.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.IPostingAction">
+            <summary>
+            Contract for custom posting actions.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IPostingAction.Invoke(Seesmic.Sdp.Extensibility.PostContainer)">
+            <summary>
+            Invokes the posting action.
+            </summary>
+            <param name="postContainer">The current post container.</param>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IPostingAction.Icon">
+            <summary>
+            Gets the icon of the posting action.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IPostingAction.Text">
+            <summary>
+            Gets the text of the posting action.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.IPostingService">
+            <summary>
+            Contract for the Core's posting service.
+            </summary>
+            <remarks>This interface is not intended to be implemented. It's simply a way for plugins to import core's posting service, so that they can use its features.</remarks>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IPostingService.RegisterPostingProvider(Seesmic.Sdp.Extensibility.IPostingProvider)">
+            <summary>
+            Registers the specified posting provider within Core.
+            </summary>
+            <param name="postingProvider">The posting provider to register.</param>
+            <remarks>This method is deprecated. Please use <see cref="M:Seesmic.Sdp.Extensibility.IPostingService.RegisterPostingProvider(Seesmic.Sdp.Extensibility.PostingProvider)"/> instead.</remarks>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IPostingService.RegisterPostingProvider(Seesmic.Sdp.Extensibility.PostingProvider)">
+            <summary>
+            Registers the specified posting provider within Core.
+            </summary>
+            <param name="postingProvider">The posting provider to register.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IPostingService.UnregisterPostingProvider(Seesmic.Sdp.Extensibility.IPostingProvider)">
+            <summary>
+            Unregisters a posting provider from Core.
+            </summary>
+            <param name="postingProvider">The posting provider to unregister.</param>
+            <remarks>This method is deprecated. Please use <see cref="M:Seesmic.Sdp.Extensibility.IPostingService.UnregisterPostingProvider(Seesmic.Sdp.Extensibility.PostingProvider)"/> instead.</remarks>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IPostingService.UnregisterPostingProvider(Seesmic.Sdp.Extensibility.PostingProvider)">
+            <summary>
+            Unregisters a posting provider from Core.
+            </summary>
+            <param name="postingProvider">The posting provider to unregister.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IPostingService.RegisterPostingAction(Seesmic.Sdp.Extensibility.IPostingAction)">
+            <summary>
+            Registers the specified posting action within Core.
+            </summary>
+            <param name="postingAction">The posting action to register.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IPostingService.UnregisterPostingAction(Seesmic.Sdp.Extensibility.IPostingAction)">
+            <summary>
+            Unregisters a posting action from Core.
+            </summary>
+            <param name="postingAction">The posting action to unregister.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IPostingService.GetPostingContainer">
+            <summary>
+            Gets the current posting container.
+            </summary>
+            <returns>The current posting container.</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IPostingService.SetPostingContainer(Seesmic.Sdp.Extensibility.PostContainer)">
+            <summary>
+            Sets the posting container, replacing the current instance.
+            </summary>
+            <param name="postContainer">The post container instance to set.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IPostingService.SetPostingContainer(Seesmic.Sdp.Extensibility.PostContainer,Seesmic.Sdp.Extensibility.IPostingProvider[])">
+            <summary>
+            Sets the posting container, replacing the current instance and selects in post view the posting providers from parameters.
+            </summary>
+            <param name="postContainer">The post container instance to set.</param>
+            <param name="parameters">The posting providers to select in post view if smart account selection is enabled.</param>
+            <remarks>This method is deprecated. Please use <see cref="M:Seesmic.Sdp.Extensibility.IPostingService.SetPostingContainer(Seesmic.Sdp.Extensibility.PostContainer,Seesmic.Sdp.Extensibility.PostingProvider[])"/> instead.</remarks>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IPostingService.SetPostingContainer(Seesmic.Sdp.Extensibility.PostContainer,Seesmic.Sdp.Extensibility.PostingProvider[])">
+            <summary>
+            Sets the posting container, replacing the current instance and selects in post view the posting providers from parameters.
+            </summary>
+            <param name="postContainer">The post container instance to set.</param>
+            <param name="parameters">The posting providers to select in post view if smart account selection is enabled.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IPostingService.SelectPostingProviders(Seesmic.Sdp.Extensibility.IPostingProvider[])">
+            <summary>
+            Changes the selected accounts in posting view
+            </summary>
+            <param name="postingProviders">The posting providers to select in post view.</param>
+            <remarks>This method is deprecated. Please use <see cref="M:Seesmic.Sdp.Extensibility.IPostingService.SelectPostingProviders(Seesmic.Sdp.Extensibility.PostingProvider[])"/> instead.</remarks>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IPostingService.SelectPostingProviders(Seesmic.Sdp.Extensibility.PostingProvider[])">
+            <summary>
+            Changes the selected accounts in posting view
+            </summary>
+            <param name="postingProviders">The posting providers to select in post view.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IPostingService.AppendPostingText(System.String)">
+            <summary>
+            Appends a text to the posting area.
+            </summary>
+            <param name="text">The text to append on the posting area.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IPostingService.InsertPostingText(System.String)">
+            <summary>
+            Inserts a text in the posting area at current cursor position.
+            </summary>
+            <param name="text">The text to insert in the posting area.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IPostingService.RegisterAutoCompleteProvider(Seesmic.Sdp.Extensibility.IAutoCompleteProvider)">
+            <summary>
+            Register the specified autoComplete provider with the autoComplete service.
+            </summary>
+            <param name="autoCompleteProvider">The autoComplete provider to register.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IPostingService.UnregisterAutoCompleteProvider(Seesmic.Sdp.Extensibility.IAutoCompleteProvider)">
+            <summary>
+            Unregister the specified autoComplete provider from the autoComplete service.
+            </summary>
+            <param name="autoCompleteProvider">The autoComplete provider to unregister.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IPostingService.ReplacePostingText(System.String,System.Boolean)">
+            <summary>
+            Replaces the current text from posting area with a new one.
+            </summary>
+            <param name="text">The text to set in the posting area.</param>
+            <param name="focus">Specifies whether to set keyboard focus on the posting area.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IInternalPostingService.RegisterUrlPreviewProvider(Seesmic.Sdp.Extensibility.UrlPreviewProvider)">
+            <summary>
+            Register the specified UrlPreview provider with the posting service.
+            </summary>
+            <param name="provider">The UrlPreview provider to register.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IInternalPostingService.UnregisterUrlPreviewProvider(Seesmic.Sdp.Extensibility.UrlPreviewProvider)">
+            <summary>
+            Unregister the specified UrlPreview provider from the posting service.
+            </summary>
+            <param name="provider">The UrlPreview provider to unregister.</param>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.PostContainer">
+            <summary>
+            Wraps post message and metadata.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.PostContainer._Metadata">
+            <summary>
+            Stores the metadata collection.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.PostContainer._ReadOnlyMetadata">
+            <summary>
+            Stores a read only view over the metadata collection.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.PostContainer.#ctor(System.String,System.Collections.Generic.KeyValuePair{System.String,System.Object}[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Extensibility.PostContainer"/> class.
+            </summary>
+            <param name="text">The message text</param>
+            <param name="metadata">The metadata to add to the container.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.PostContainer.AddMetadata(System.String,System.Object)">
+            <summary>
+            Adds a metadata item to this container.
+            </summary>
+            <param name="key">The key of the metadata item.</param>
+            <param name="value">The value of the metadata item.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.PostContainer.RemoveMetadata(System.String)">
+            <summary>
+            Removes a metadata item from this container.
+            </summary>
+            <param name="key">The key of the metadata item.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.PostContainer.ClearMetadata">
+            <summary>
+            Removes all metadata from this container.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.PostContainer.GetMetadata(System.String)">
+            <summary>
+            Gets the metadata with the specified key.
+            </summary>
+            <param name="key">The key to get the metadata value.</param>
+            <returns>The metadata corresponding to the specified key.</returns>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException">The given key is not found in the metadata collection.</exception>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.PostContainer.TryGetMetadata(System.String,System.Object@)">
+            <summary>
+            Attempts to retrieve the metadata with the specified key.
+            </summary>
+            <param name="key">The key to get the metadata value.</param>
+            <param name="value">The value of the metadata.</param>
+            <returns><c>true</c> if the information was retrieved successfully; <c>false</c> if the given key was not found.</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.PostContainer.GetMetadata``1(System.String)">
+            <summary>
+            Gets the metadata with the specified key.
+            </summary>
+            <typeparam name="T">The type of the metadata information to retrieve.</typeparam>
+            <param name="key">The key to get the metadata value.</param>
+            <returns>The metadata corresponding to the specified key.</returns>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException">The given key is not found in the metadata collection.</exception>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.PostContainer.TryGetMetadata``1(System.String,``0@)">
+            <summary>
+            Attempts to retrieve the metadata with the specified key.
+            </summary>
+            <typeparam name="T">The type of the metadata information to retrieve.</typeparam>
+            <param name="key">The key to get the metadata value.</param>
+            <param name="value">The value of the metadata.</param>
+            <returns><c>true</c> if the information was retrieved successfully; <c>false</c> if the given key was not found.</returns>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.PostContainer.Text">
+            <summary>
+            Gets the message text.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.PostContainer.Metadata">
+            <summary>
+            Gets the attachments collection.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.INotificationService">
+            <summary>
+            Contract for the shell notification service.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.INotificationService.RegisterNotificationProvider(Seesmic.Sdp.Extensibility.NotificationProviderCategory,Seesmic.Sdp.Extensibility.NotificationProvider)">
+            <summary>
+            Registers the specified notification provider in the application.
+            </summary>
+            <param name="notificationProvider">The notification provider to register.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.INotificationService.UnregisterNotificationProvider(Seesmic.Sdp.Extensibility.NotificationProviderCategory,Seesmic.Sdp.Extensibility.NotificationProvider)">
+            <summary>
+            Unregisters the specified notification provider from the application.
+            </summary>
+            <param name="notificationProvider">The notification provider to unregister.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.INotificationService.ShowToastNotification(Seesmic.Sdp.Extensibility.ToastNotificationInfo)">
+            <summary>
+            Shows a toast notification message.
+            </summary>
+            <param name="notificationInfo">A <see cref="T:Seesmic.Sdp.Extensibility.ToastNotificationInfo"/> instance that describes the notification options.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.INotificationService.ShowBarNotification(Seesmic.Sdp.Extensibility.BarNotificationInfo)">
+            <summary>
+            Shows a bar notification message.
+            </summary>
+            <param name="notificationInfo">A <see cref="T:Seesmic.Sdp.Extensibility.BarNotificationInfo"/> instance that describes the notification options.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.INotificationService.ShowDialogNotification(Seesmic.Sdp.Extensibility.DialogNotificationInfo)">
+            <summary>
+            Shows a dialog notification message.
+            </summary>
+            <param name="notificationInfo">A <see cref="T:Seesmic.Sdp.Extensibility.DialogNotificationInfo"/> instance that describes the notification options.</param>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.PostingProcessor">
+             <summary>
+             Contract for clients that want to hook up into posting pipeline.
+             </summary>
+             <example>
+             The following example shows how to implement an <c>AutoCompletePostingProcessor</c> by implementing the <c>PostingProcessor</c> abstract class.
+             <code>
+             public class AutoCompletePostingProcessor : PostingProcessor
+             {
+                 public override void PreProcessPost(PostContainer postContainer)
+                 {
+                    
+                 }
+            
+                 public override void PostProcessPost(PostContainer postContainer, PostingProvider[] postingProviders)
+                 {
+                     var text = postContainer.Text;
+            
+                     if (string.IsNullOrWhiteSpace(text) == false)
+                     {
+                         var keywords = ExampleAutoCompleteProvider.UsernameRegex.Matches(text).OfType&lt;Match&gt;().Select(m => m.Value).Distinct().ToList();
+                         ExampleAutoCompleteProvider.AddWords(keywords);
+                     }
+                 }
+             }
+             </code>
+             </example>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.PostingProcessor.PreProcessPost(Seesmic.Sdp.Extensibility.PostContainer)">
+            <summary>
+            Allows implementors to provide preprocessing logic for the post container.
+            </summary>
+            <param name="postContainer">The post container instance.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.PostingProcessor.PostProcessPost(Seesmic.Sdp.Extensibility.PostContainer,Seesmic.Sdp.Extensibility.PostingProvider[])">
+            <summary>
+            Allows implementors to provide postprocessing logic for the post container.
+            </summary>
+            <param name="postContainer">The post container instance.</param>
+            <param name="postingProviders">The posting providers that received the post.</param>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.PostingProvider">
+             <summary>
+             Contract for posting providers.
+             </summary>
+             <example>
+             The following example shows an implementation of the <c>PostingProvider</c> abstract class. Check the implementation of the <c>ExampleSession</c> class in the <see cref="T:Seesmic.Sdp.Extensibility.ISession"/> code example.
+             <code>
+             public class ExamplePostingProvider : PostingProvider
+             {
+                 private readonly ExampleSession _Session;
+            
+                 public override string Id
+                 {
+                     get { return _Session.Id; }
+                 }
+            
+                 public override DataTemplate Icon
+                 {
+                     get 
+                     {
+                         //Normally, you would return a resource which identifies the posting icon data template for all accounts of type ExampleAccount.
+                         throw new NotImplementedException(); 
+                     }
+                 }
+            
+                 public override string Text
+                 {
+                     get { return _Session.Account.Username; }
+                 }
+            
+                 public override bool CanPost(PostContainer postContainer)
+                 {
+                     return string.IsNullOrWhiteSpace(postContainer.Text) == false;
+                 }
+            
+                 public override void PostAsync(PostContainer postContainer, object userState, AsyncCompletedCallback callback)
+                 {
+                     //Asynchronously post a message to the service and call the callback when the response is received.
+                 }
+             }
+             </code>
+             </example>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.PostingProvider.CanPost(Seesmic.Sdp.Extensibility.PostContainer)">
+            <summary>
+            Returns a value indicating if this provider supports posting the specified message.
+            </summary>
+            <param name="postContainer">The posting container holding message and metadata.</param>
+            <returns><c>true</c> if the message can be posted; <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.PostingProvider.PostAsync(Seesmic.Sdp.Extensibility.PostContainer,System.Object,Seesmic.Sdp.Extensibility.AsyncCompletedCallback)">
+            <summary>
+            Posts the specified message.
+            </summary>
+            <param name="postContainer">The posting container holding message and metadata.</param>
+            <param name="userState">The unique identifier for the asynchronous task.</param>
+            <param name="callback">The callback to be invoked when the action completes.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.PostingProvider.GetPrivacyInfo(Seesmic.Sdp.Extensibility.PostContainer)">
+            <summary>
+            Requests privacy information for the specified <see cref="T:Seesmic.Sdp.Extensibility.PostContainer"/> instance.
+            </summary>
+            <param name="postContainer">The <see cref="T:Seesmic.Sdp.Extensibility.PostContainer"/> instance.</param>
+            <returns>A <see cref="T:Seesmic.Sdp.Extensibility.PostPrivacyInfo"/> instance containing privacy information for the specified container.</returns>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.PostingProvider.Id">
+            <summary>
+            Gets the unique Id of the posting provider.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.PostingProvider.Icon">
+            <summary>
+            Gets the icon of the posting provider.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.PostingProvider.Text">
+            <summary>
+            Gets the name of the posting provider.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.PostingProvider.MaxCharactersCount">
+            <summary>
+            Gets the maximum number of characters that can be posted by this provider
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.PostingProvider.SettingsTemplate">
+            <summary>
+            Gets the visual template for posting settings.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.PostPrivacyInfo">
+            <summary>
+            Contains privacy information for a post message.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.PostPrivacyInfo.Private(System.String)">
+            <summary>
+            Returns a private <see cref="T:Seesmic.Sdp.Extensibility.PostPrivacyInfo"/> instance.
+            </summary>
+            <param name="description">The description of the <see cref="T:Seesmic.Sdp.Extensibility.PostPrivacyInfo"/> instance.</param>
+            <returns>A private <see cref="T:Seesmic.Sdp.Extensibility.PostPrivacyInfo"/> instance.</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.PostPrivacyInfo.Public(System.String)">
+            <summary>
+            Returns a public <see cref="T:Seesmic.Sdp.Extensibility.PostPrivacyInfo"/> instance.
+            </summary>
+            <param name="description">The description of the <see cref="T:Seesmic.Sdp.Extensibility.PostPrivacyInfo"/> instance.</param>
+            <returns>A public <see cref="T:Seesmic.Sdp.Extensibility.PostPrivacyInfo"/> instance.</returns>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.PostPrivacyInfo.PrivacyLevel">
+            <summary>
+            Gets the privacy level of the posting container.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.PostPrivacyInfo.Description">
+            <summary>
+            Gets the description to be displayed to the user with the privacy warning.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.PostPrivacyLevel">
+            <summary>
+            Represents the privacy level of a posting container.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.PostPrivacyLevel.Unsupported">
+            <summary>
+            Value for posting providers that do not support this feature.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.PostPrivacyLevel.Public">
+            <summary>
+            Marks the posting container as public.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.PostPrivacyLevel.Private">
+            <summary>
+            Marks the posting container as private.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.Session.#ctor(Seesmic.Sdp.Extensibility.Account)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Extensibility.Session"/> class.
+            </summary>
+            <param name="account">The account associated with this session.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.Session.AddNotificationProvider(Seesmic.Sdp.Extensibility.NotificationProvider)">
+            <summary>
+            Adds the specified notification provider to this session.
+            </summary>
+            <param name="notificationProvider">The <see cref="T:Seesmic.Sdp.Extensibility.NotificationProvider"/> to add to this session.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.Session.RemoveNotificationProvider(Seesmic.Sdp.Extensibility.NotificationProvider)">
+            <summary>
+            Removes the specified notification provider from this session.
+            </summary>
+            <param name="notificationProvider">The <see cref="T:Seesmic.Sdp.Extensibility.NotificationProvider"/> to remove from this session.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.Session.Start">
+            <summary>
+            Signals the session to start.
+            </summary>
+            <remarks>This method should be usually called at the beginning of the session life-cycle.</remarks>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.Session.Stop">
+            <summary>
+            Signals the session to stop.
+            </summary>
+            <remarks>This method should be usually called at the end of the session life-cycle.</remarks>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.Session.Account">
+            <summary>
+            Gets the associated <see cref="T:Seesmic.Sdp.Extensibility.IAccount"/> for the session.
+            </summary>
+            <remarks>This member should always return null from plugins.</remarks>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.Session.SidebarAction">
+            <summary>
+            Gets the associated <see cref="T:Seesmic.Sdp.Extensibility.ISidebarAction"/> for the session.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.Session.NotificationProviders">
+            <summary>
+            Gets a collection of notification providers associated with this session.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.ITimelineView2">
+            <summary>
+            Contract implemented by the timeline view for items which support read/unread content.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.ITimelineView">
+            <summary>
+            Contract implemented by the timeline view.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.IColumnViewable">
+            <summary>
+            Contract for views that support hosting in columns.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IColumnViewable.Header">
+            <summary>
+            Gets the icon to display on the column header.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IColumnViewable.HeaderTemplate">
+            <summary>
+            Gets the data template used to render the header.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IColumnViewable.Content">
+            <summary>
+            Gets the content to display in the column.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IColumnViewable.ContentTemplate">
+            <summary>
+            Gets the data template used to render the content.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.IView">
+            <summary>
+            Minimal contract to be implemented by views.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IView.ActualWidth">
+            <summary>
+            The actual width of the view.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IView.DataContext">
+            <summary>
+            The data context object associated with the view.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ITimelineView.Timeline">
+            <summary>
+            Gets or sets the timeline displayed in this view.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ITimelineView.Icon">
+            <summary>
+            Gets or sets the icon to display in the header.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ITimelineView.Title">
+            <summary>
+            Gets or sets the title to display on the header.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.IColumnViewable2">
+            <summary>
+            Contract for views that support hosting in columns and read/unread content.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IColumnViewable2.MarkContentAsRead">
+            <summary>
+            Marks the content as read.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IColumnViewable2.OnClosed">
+            <summary>
+            Called by the hosting column when it was closed by the user. Allows implementors to cleanup resources.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IColumnViewable2.HasUnreadContent">
+            <summary>
+            Indicates if the IColumnViewable2 has unread content or not.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.ISidebarAction">
+            <summary>
+            Contract to be implemented by sidebar actions.
+            </summary>
+            <example>
+            For an example of using sidebar actions, check the code example for <c>Seesmic.Sdp.Utils.SidebarAction</c> abstract class.
+            </example>
+            <remarks>You are encouraged to use the <c>Seesmic.Sdp.Utils.SidebarAction</c> abstract class, which implements this interface and adds support for property change notifications.</remarks>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.ISidebarAction.Invoke(Seesmic.Sdp.Extensibility.SidebarActionContext)">
+            <summary>
+            Invokes the sidebar action as a response to a user action.
+            </summary>
+            <param name="context">The invocation context of the sidebar action.</param>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ISidebarAction.PersistId">
+            <summary>
+            Gets a persistence id used to persist the state of the sidebar action.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ISidebarAction.Icon">
+            <summary>
+            Gets the icon of the sidebar action.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ISidebarAction.Text">
+            <summary>
+            Gets the text description of the sidebar action.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ISidebarAction.IsHighlighted">
+            <summary>
+            Gets a value indicating whether this action should be highlighted.
+            </summary>
+            <remarks>Implementors can raise a PropertyChanged event if they want to update the UI.</remarks>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.ISidebarActionGroup">
+            <summary>
+            Contract for sidebar action groups.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ISidebarActionGroup.CanInvoke">
+            <summary>
+            Gets a value indicating whether the header of the sidebar action group can be invoked.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ISidebarActionGroup.SidebarActions">
+            <summary>
+            Gets the sidebar actions under this category.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.NotificationKind">
+            <summary>
+            Specifies the supported notification types.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.NotificationKind.Bar">
+            <summary>
+            Notifications will be displayed as a bar on the top edge of the window.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.NotificationKind.Toast">
+            <summary>
+            Notifications will be displayed as toast messages on the bottom right corner of the screen.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.ProcessingResult">
+            <summary>
+            Used to communicate the result of the timeline item processing.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.ProcessingResult.#ctor(Seesmic.Sdp.Extensibility.TimelineItemContainer)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Extensibility.ProcessingResult"/> class.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ProcessingResult.TimelineItemContainer">
+            <summary>
+            Gets the processed item's container reference.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ProcessingResult.Blocked">
+            <summary>
+            Gets a value indicating whether the timeline was blocked by one of the filters.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ProcessingResult.Error">
+            <summary>
+            Gets the error that occurred during processing, or null if the processing succeeded.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.SidebarActionCategory">
+            <summary>
+            Specifies the sidebar action categories.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.SidebarActionCategory.Userlists">
+            <summary>
+            Userlists sidebar action category
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.SidebarActionCategory.Searches">
+            <summary>
+            Searches sidebar action category
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.SidebarActionCategory.Extras">
+            <summary>
+            Extras sidebar action category
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.SidebarActionContext">
+            <summary>
+            Stores the invocation context of a sidebar action.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.SidebarActionContext.Space">
+            <summary>
+            Gets the space where the sidebar action was invoked.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.ShortUrlProvider">
+            <summary>
+            Contract for short url providers.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.ShortUrlProvider.ShortUrlAsync(System.String,System.Object,Seesmic.Sdp.Extensibility.AsyncCompletedCallback{System.String})">
+            <summary>
+            Shortenes the specified long url.
+            </summary>
+            <param name="longURL">The long url which needs to be shortened.</param>
+            <param name="userState">The unique identifier for the asynchronous task.</param>
+            <param name="callback">The callback to be invoked when the action completes.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.ShortUrlProvider.IsShortened(System.Uri)">
+            <summary>
+            Returns a value indicating whether the given <see cref="T:System.Uri"/> is shortened or not.
+            </summary>
+            <param name="url">The <see cref="T:System.Uri"/> to check if is shortened or not</param>
+            <returns><c>true</c> if the <see cref="T:System.Uri"/> is shortened; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ShortUrlProvider.Id">
+            <summary>
+            Gets the unique Id of the short url provider.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ShortUrlProvider.Icon">
+            <summary>
+            Gets the icon of the short url provider.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ShortUrlProvider.Text">
+            <summary>
+            Gets the name of the short url provider.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.AggregatedTimelines">
+            <summary>
+            Contains a list of aggregated timelines.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.AggregatedTimelines.Home">
+            <summary>
+            Home aggregated timeline.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.AggregatedTimelines.Private">
+            <summary>
+            Private aggregated timeline.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.AggregatedTimelines.Replies">
+            <summary>
+            Replies aggregated timeline.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.AggregatedTimelines.Sent">
+            <summary>
+            Sent aggregated timeline.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.AggregatedTimelines.None">
+            <summary>
+            No aggregated timeline.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.ColumnClosingEventArgs">
+            <summary>
+            Stores information for the column closing event
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.ColumnClosingEventArgs.#ctor(System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Extensibility.ColumnClosingEventArgs"/> class.
+            </summary>
+            <param name="canCancel">Specifies if the column closing event can be cancelled.</param>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ColumnClosingEventArgs.CanCancel">
+            <summary>
+            Gets a value indicating if the column closing event can be canceled.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ColumnClosingEventArgs.Cancel">
+            <summary>
+            Gets or sets a value indicating if the column closing event is cancelled.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.IColumnView">
+            <summary>
+            Contract implemented by the column view.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IColumnView.AddView(Seesmic.Sdp.Extensibility.IColumnViewable)">
+            <summary>
+            Adds the a view to this column.
+            </summary>
+            <param name="view">The view to add.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IColumnView.SetCurrentView(Seesmic.Sdp.Extensibility.IColumnViewable)">
+            <summary>
+            Sets the currently displayed view.
+            </summary>
+            <param name="view">The view to set as the current view.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IColumnView.RemoveView(Seesmic.Sdp.Extensibility.IColumnViewable)">
+            <summary>
+            Removes the specified view from this column.
+            </summary>
+            <param name="view">The view to remove.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IColumnView.Close(System.Boolean)">
+            <summary>
+            Closes this column.
+            </summary>
+            <param name="allowCancel">Specifies whether the operation can be cancelled.</param>
+            <returns><c>true</c> if the column was closed; <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IColumnView.AddHeaderAction(Seesmic.Sdp.Extensibility.IColumnAction)">
+            <summary>
+            Adds a header action to this column.
+            </summary>
+            <param name="action">The action instance to be added.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IColumnView.RemoveHeaderAction(Seesmic.Sdp.Extensibility.IColumnAction)">
+            <summary>
+            Removes a header action from this column.
+            </summary>
+            <param name="action">The action instance to be removed.</param>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IColumnView.CurrentView">
+            <summary>
+            Gets the currently displayed view in the column.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IColumnView.Views">
+            <summary>
+            Gets the views registered within this column.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IColumnView.IsSelected">
+            <summary>
+            Gets or sets a value indicating whether this column is selected in the current space.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IColumnView.SidebarAction">
+            <summary>
+            Gets or sets a reference to the sidebar action that opened this column.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IColumnView.HeaderActions">
+            <summary>
+            Gets a list of header actions for this column.
+            </summary>
+        </member>
+        <member name="E:Seesmic.Sdp.Extensibility.IColumnView.Closing">
+            <summary>
+            Raised before the column will be closed.
+            </summary>
+        </member>
+        <member name="E:Seesmic.Sdp.Extensibility.IColumnView.Closed">
+            <summary>
+            Raised when the column has been closed.
+            </summary>
+        </member>
+        <member name="E:Seesmic.Sdp.Extensibility.IColumnView.IsSelectedChanged">
+            <summary>
+            Occurs when the value of the IsSelected property has changed.
+            </summary>
+        </member>
+        <member name="E:Seesmic.Sdp.Extensibility.IColumnView.DragCancelled">
+            <summary>
+            Raised when a drag operation is cancelled.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.IShellService">
+            <summary>
+            Contract for the shell service.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IShellService.RegisterSidebarAction(Seesmic.Sdp.Extensibility.SidebarActionCategory,Seesmic.Sdp.Extensibility.ISidebarAction)">
+            <summary>
+            Registers a sidebar action within a category.
+            </summary>
+            <param name="category">The category to register the sidebar action within.</param>
+            <param name="sidebarAction">The sidebar action to register.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IShellService.UnregisterSidebarAction(Seesmic.Sdp.Extensibility.SidebarActionCategory,Seesmic.Sdp.Extensibility.ISidebarAction)">
+            <summary>
+            Unregisters a sidebar action from a category.
+            </summary>
+            <param name="category">The category to unregister the sidebar action from.</param>
+            <param name="sidebarAction">The sidebar action to unregister.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IShellService.ShowProfile(Seesmic.Sdp.Extensibility.IProfile)">
+            <summary>
+            Displays the profile panel for the specified profile.
+            </summary>
+            <param name="profile">The profile to display in the profile panel.</param>
+            <remarks>This method is deprecated. Please use <see cref="M:Seesmic.Sdp.Extensibility.IShellService.ShowProfile(Seesmic.Sdp.Extensibility.Profile)"/> instead.</remarks>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IShellService.ShowProfile(Seesmic.Sdp.Extensibility.Profile)">
+            <summary>
+            Displays the profile panel for the specified profile.
+            </summary>
+            <param name="profile">The profile to display in the profile panel.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IShellService.CloseProfile">
+            <summary>
+            Closes the profile panel.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IShellService.RegisterTimelineItemAction(Seesmic.Sdp.Extensibility.ITimelineItemAction)">
+            <summary>
+            Registers an action for timeline items.
+            </summary>
+            <param name="action">The action to register.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IShellService.UnregisterTimelineItemAction(Seesmic.Sdp.Extensibility.ITimelineItemAction)">
+            <summary>
+            Unregisters a timeline item action.
+            </summary>
+            <param name="action">The action to unregister.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IShellService.ShowPluginSettings(System.Guid)">
+            <summary>
+            Displayes the settings interface for the specified plugin
+            </summary>
+            <param name="pluginId">Plugin id</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IShellService.CreateTimelineView">
+            <summary>
+            Creates a new timeline view.
+            </summary>
+            <returns>The new timeline view instance.</returns>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IShellService.ClientInstallationId">
+            <summary>
+            Gets a unique Id for every installation on a client machine.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IShellService.CurrentSpace">
+            <summary>
+            Gets the currently selected space.
+            </summary>
+        </member>
+        <member name="E:Seesmic.Sdp.Extensibility.IShellService.CurrentSpaceChanged">
+            <summary>
+            Occurs when the current space has changed.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.ISpace">
+            <summary>
+            Contract exposed by smart spaces.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.ISpace.InvokeSidebarAction(System.String)">
+            <summary>
+            Invokes the sidebar action with the specified persist id.
+            </summary>
+            <param name="persistId">The persist id of the sidebar action to invoke.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.ISpace.AddColumn(Seesmic.Sdp.Extensibility.ISidebarAction,Seesmic.Sdp.Extensibility.IColumnViewable)">
+            <summary>
+            Adds a custom content column to this space.
+            </summary>
+            <param name="owner">The owner.</param>
+            <param name="content">The content to display in the column.</param>
+            <returns>A reference to the added column.</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.ISpace.AddTimelineColumn(Seesmic.Sdp.Extensibility.ISidebarAction,Seesmic.Sdp.Extensibility.ITimeline,System.String,System.Windows.DataTemplate)">
+            <summary>
+            Adds a preconfigured timeline column to this space.
+            </summary>
+            <param name="owner">The owner.</param>
+            <param name="timeline">The timeline to plug into the column.</param>
+            <param name="title">The title of the column.</param>
+            <param name="icon">The icon of the column.</param>
+            <returns>A reference to the added column.</returns>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.ITimeline2">
+            <summary>
+            Interface for timeline collections with support for read/unread items.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.ITimeline">
+            <summary>
+            Interface for timeline collections.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ITimeline.Items">
+            <summary>
+            Gets the items stored in the timeline.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.ITimeline2.MarkAllContentAsRead">
+            <summary>
+            Marks all content as read from core.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ITimeline2.UnreadItemsCount">
+            <summary>
+            Indicates how many items are not marked as read in this timeline.
+            </summary>
+        </member>
+        <member name="E:Seesmic.Sdp.Extensibility.ITimeline2.UnreadItemsChanged">
+            <summary>
+            Occurs when the <see cref="P:Seesmic.Sdp.Extensibility.ITimeline2.UnreadItemsCount"/> property changes.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.IInfiniteTimeline">
+            <summary>
+            Interface for infinite timeline collections.
+            </summary>
+            <remarks>Use this for timelines which can contain older items (they have a "More" button at the bottom which loads older items).</remarks>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IInfiniteTimeline.FetchMoreItems">
+            <summary>
+            Fetches more timeline items (older items) from the specific service.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IInfiniteTimeline.ShowMoreItemsVisible">
+            <summary>
+            Gets a value indicating whether to display the "show more items" option
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IInfiniteTimeline.IsFetchingMoreItems">
+            <summary>
+            Gets a value indicating whether more items are being fetched
+            </summary>
+        </member>
+        <member name="E:Seesmic.Sdp.Extensibility.IInfiniteTimeline.ShowMoreItemsVisibleChanged">
+            <summary>
+            Occurs when the <see cref="P:Seesmic.Sdp.Extensibility.IInfiniteTimeline.ShowMoreItemsVisible"/> property changes.
+            </summary>
+        </member>
+        <member name="E:Seesmic.Sdp.Extensibility.IInfiniteTimeline.IsFetchingMoreItemsChanged">
+            <summary>
+            Occurs when the <see cref="P:Seesmic.Sdp.Extensibility.IInfiniteTimeline.IsFetchingMoreItems"/> property changes.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.ITimelineItemAction">
+            <summary>
+            Contract for actions that can be performed on timeline items.
+            </summary>
+            <remarks>This interface is deprecated. Please use <see cref="T:Seesmic.Sdp.Extensibility.ITimelineItemAction2"/> interface instead.</remarks>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.ITimelineItemAction.CanExecute(Seesmic.Sdp.Extensibility.TimelineItemContainer)">
+            <summary>
+            Determines whether the action can be executed on the specified timeline item container.
+            </summary>
+            <param name="timelineItemContainer">The timeline item container to verify the action against.</param>
+            <returns><c>true</c> if the action can be executed; <c>false</c> otherwise.</returns>
+            <remarks>This method is deprecated. Please use <see cref="M:Seesmic.Sdp.Extensibility.ITimelineItemAction2.CanExecute(Seesmic.Sdp.Extensibility.TimelineItemActionContext)"/> instead.</remarks>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.ITimelineItemAction.Execute(Seesmic.Sdp.Extensibility.TimelineItemContainer)">
+            <summary>
+            Executes the action against the specified timeline item.
+            </summary>
+            <param name="timelineItemContainer">The timeline item container to execute the action against.</param>
+            <remarks>This method is deprecated. Please use <see cref="M:Seesmic.Sdp.Extensibility.ITimelineItemAction2.Execute(Seesmic.Sdp.Extensibility.TimelineItemActionContext)"/> instead.</remarks>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ITimelineItemAction.Icon">
+            <summary>
+            Gets the icon of the action.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ITimelineItemAction.Text">
+            <summary>
+            Gets the text description of the item.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.ITimelineItemAction2">
+            <summary>
+            Contract for actions that can be performed on timeline items.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.ITimelineItemAction2.CanExecute(Seesmic.Sdp.Extensibility.TimelineItemActionContext)">
+            <summary>
+            Determines whether the action can be executed on the specified timeline item container.
+            </summary>
+            <param name="context">The context to verify the action against.</param>
+            <returns><c>true</c> if the action can be executed; <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.ITimelineItemAction2.Execute(Seesmic.Sdp.Extensibility.TimelineItemActionContext)">
+            <summary>
+            Executes the action against the specified timeline item action context.
+            </summary>
+            <param name="context">The timeline item action context to execute the action against.</param>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.ITimelineItemAttachment">
+            <summary>
+            Contract for timeline item attachment.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ITimelineItemAttachment.SmallLogo">
+            <summary>
+            Gets the logo to display when the attachment is collapsed.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ITimelineItemAttachment.LargeLogo">
+            <summary>
+            Gets the logo to display when the attachment is expanded.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ITimelineItemAttachment.CollapsedText">
+            <summary>
+            Gets the text to display when the attachment is collapsed.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ITimelineItemAttachment.ContentTemplate">
+            <summary>
+            Gets the template used to render the expanded attachment content.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ITimelineItemAttachment.IsInitiallyExpanded">
+            <summary>
+            Gets a value indicating whether the attachment should be expanded by default.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.ITimelineItemProcessor">
+            <summary>
+            Contract for timeline item processors.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.ITimelineItemProcessor.Filter(Seesmic.Sdp.Extensibility.TimelineItemContainer)">
+            <summary>
+            Allows the processor to block the item.
+            </summary>
+            <param name="timelineItemContainer">The timeline item container reference.</param>
+            <returns><c>true</c> if the item passed; <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.ITimelineItemProcessor.Process(Seesmic.Sdp.Extensibility.TimelineItemContainer)">
+            <summary>
+            Allows the processor to modify the attachments or metadata of the timeline item.
+            </summary>
+            <param name="timelineItemContainer">The timeline item container reference.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.ITimelineItemProcessor.Deliver(Seesmic.Sdp.Extensibility.TimelineItemContainer)">
+            <summary>
+            Called when after the item has been through all registered processors.
+            </summary>
+            <param name="timelineItemContainer">The timeline item container reference.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.ITimelineItemProcessor.Remove(Seesmic.Sdp.Extensibility.TimelineItemContainer)">
+            <summary>
+            Called when the item is about to be removed.
+            </summary>
+            <param name="timelineItemContainer">The timeline item container reference.</param>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.IAccount">
+            <summary>
+            Represents an account of an user on a service.
+            </summary>
+            <remarks>This interface is deprecated. Please use <see cref="T:Seesmic.Sdp.Extensibility.Account"/> abstract class instead.</remarks>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IAccount.UpdateAccount(Seesmic.Sdp.Extensibility.IAccount)">
+            <summary>
+            Updates this <see cref="T:Seesmic.Sdp.Extensibility.IAccount"/> with data from sourceAccount
+            </summary>
+            <param name="sourceAccount">The source <see cref="T:Seesmic.Sdp.Extensibility.Account"/> used to update this account</param>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IAccount.Id">
+            <summary>
+            Gets the unique Id of the account.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IAccount.Username">
+            <summary>
+            Gets the username of this account.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IAccount.AccountProviderId">
+            <summary>
+            Gets the Id of the account provider that created this account.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.IAccountProvider">
+            <summary>
+            Contract for account providers.
+            </summary>
+            <remarks>This interface is deprecated. Please use <see cref="T:Seesmic.Sdp.Extensibility.AccountProvider"/> abstract class instead.</remarks>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IAccountProvider.CreateAccount">
+            <summary>
+            Creates a new account specific to this provider.
+            </summary>
+            <returns>An empty account data.</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IAccountProvider.AuthenticateAsync(Seesmic.Sdp.Extensibility.IAccount,System.Object,Seesmic.Sdp.Extensibility.AsyncCompletedCallback)">
+            <summary>
+            Authenticates the specified account.
+            </summary>
+            <param name="account">The account to authenticate.</param>
+            <param name="userState">The unique identifier for the asynchronous task.</param>
+            <param name="callback">Callback to be invoked when authentication completes.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IAccountProvider.SerializeAccount(Seesmic.Sdp.Extensibility.IAccount)">
+            <summary>
+            Serializes the specified account.
+            </summary>
+            <param name="account">The account instance to serialize.</param>
+            <returns>Account's serialization data.</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IAccountProvider.DeserializeAccount(System.String)">
+            <summary>
+            Deserializes an account.
+            </summary>
+            <param name="data">The serialization data.</param>
+            <returns>The deserialized account.</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.IAccountProvider.GetSession(Seesmic.Sdp.Extensibility.IAccount)">
+            <summary>
+            Creates a session for the specified account.
+            </summary>
+            <param name="account">The account to create a session for.</param>
+            <returns>A session created for that account.</returns>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IAccountProvider.Id">
+            <summary>
+            Gets the unique id of the account provider.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IAccountProvider.NewAccountTemplate">
+            <summary>
+            Gets the visual template for adding a new account.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IAccountProvider.EditAccountTemplate">
+            <summary>
+            Gets the visual template for editing an existing account.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IAccountProvider.AccountIcon">
+            <summary>
+            Gets the icon to display with the accounts.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.IAccountProvider.AccountTypeName">
+            <summary>
+            Gets the visual template for adding a new account.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.ISession">
+            <summary>
+            Contract which must be implemented in order to use sessions in plugins.
+            </summary>
+            <example>
+            The following example shows an implementation of the <c>ISession</c> interface, called <c>ExampleSession</c>. Check the implementation of the <c>ExampleSidebarAction</c> class in the <see cref="T:Seesmic.Sdp.Extensibility.ISidebarAction"/> code example.
+            <code>
+            public class ExampleSession : ISession
+            {
+                private ExampleAccount _Account;
+            
+                private ISidebarAction _SidebarAction;
+            
+                private Timeline _MainTimeline;
+            
+                IAccount ISession.Account
+                {
+                    get { return null; }
+                }
+            
+                public ExampleAccount Account
+                {
+                    get { return _Account; }
+                }
+            
+                public ISidebarAction SidebarAction
+                {
+                    get { return _SidebarAction; }
+                }
+            
+                public void Start()
+                {
+                    //Do work on session start.
+                }
+            
+                public void Stop()
+                {
+                    //Do work on session end
+                }
+            
+                public event EventHandler&lt;TimelineItemEventArgs&gt; ItemAdded;
+            
+                public event EventHandler&lt;TimelineItemEventArgs&gt; ItemRemoved;
+            
+                public ExampleSession(ExampleAccount account)
+                {
+                    _Account = account;
+                    _SidebarAction = new ExampleSidebarAction(_Account, _MainTimeline);
+                }
+            
+                public void OnItemProcessed(ProcessingResult result)
+                {
+                    //Do work after an item has been processed by the pipeline.
+                }
+            }
+            </code>
+            </example>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.ISession.Start">
+            <summary>
+            Signals the session to start.
+            </summary>
+            <remarks>This method should be usually called at the beginning of the session life-cycle.</remarks>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.ISession.Stop">
+            <summary>
+            Signals the session to stop.
+            </summary>
+            <remarks>This method should be usually called at the end of the session life-cycle.</remarks>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ISession.Account">
+            <summary>
+            Gets the associated <see cref="T:Seesmic.Sdp.Extensibility.IAccount"/> for the session.
+            </summary>
+            <remarks>This member should always return null from plugins.</remarks>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ISession.SidebarAction">
+            <summary>
+            Gets the associated <see cref="T:Seesmic.Sdp.Extensibility.ISidebarAction"/> for the session.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.ITimelineItem">
+            <summary>
+            Contract for timeline items.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ITimelineItem.Id">
+            <summary>
+            Gets the unique id of the timeline item.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ITimelineItem.Username">
+            <summary>
+            Gets the username of the user owning this item.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ITimelineItem.Text">
+            <summary>
+            Gets the text of the timeline item.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ITimelineItem.AvatarUri">
+            <summary>
+            Gets the URI of the avatar image to display in the timeline item.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ITimelineItem.Template">
+            <summary>
+            Gets the data template used to render the timeline item's content.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ITimelineItem.NotificationTemplate">
+            <summary>
+            Gets the data template used to render the timeline item in the toast notification.
+            If null is returned, the default template will be used.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ITimelineItem.DateTime">
+            <summary>
+            Gets the service timestamp of the timeline item.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.ITimelineItem.GeoLocation">
+            <summary>
+            Gets the geospatial stamp of the timeline item, if available.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.TimelineItemEventArgs">
+            <summary>
+            Stores event data for timeline item related events.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.TimelineItemEventArgs.#ctor(Seesmic.Sdp.Extensibility.TimelineItemContainer)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Extensibility.TimelineItemEventArgs"/> class.
+            </summary>
+            <param name="timelineItemContainer">The timeline item container that is the subject of the event.</param>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.TimelineItemEventArgs.TimelineItemContainer">
+            <summary>
+            Gets the timeline item container that is subject of the event.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.TimelineItemActionContext">
+            <summary>
+            Describes the context in which a timeline item action occurred.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.TimelineItemActionContext.#ctor(Seesmic.Sdp.Extensibility.TimelineItemContainer,Seesmic.Sdp.Extensibility.ITimeline)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Extensibility.TimelineItemActionContext"/> class.
+            </summary>
+            <param name="timelineItemContainer">The timeline item container.</param>
+            <param name="timeline">The timeline.</param>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.TimelineItemActionContext.TimelineItemContainer">
+            <summary>
+            Gets the <see cref="P:Seesmic.Sdp.Extensibility.TimelineItemActionContext.TimelineItemContainer"/> instance on which the action is to be invoked.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.TimelineItemActionContext.Timeline">
+            <summary>
+            Gets the <see cref="T:Seesmic.Sdp.Extensibility.ITimeline"/> instance where the action was invoked, if available.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.TimelineItemContainer">
+            <summary>
+            Associates a timeline item with attachments and additional metadata.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.TimelineItemContainer._Metadata">
+            <summary>
+            Stores metadata attached to this container.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.TimelineItemContainer._ReadOnlyMetadata">
+            <summary>
+            Stores a read only view over the metadata attached to this container.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.TimelineItemContainer._Attachments">
+            <summary>
+            Stores the attachments of the timeline item.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.TimelineItemContainer._ReadOnlyAttachments">
+            <summary>
+            Stores a read only view over the attachments.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.TimelineItemContainer._Actions">
+            <summary>
+            Stores the actions defined for the container.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.TimelineItemContainer._ReadOnlyActions">
+            <summary>
+            Stores a read only view over the actions.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.TimelineItemContainer._QuickActions">
+            <summary>
+            Stores the quick actions defined for the container.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.TimelineItemContainer._ReadOnlyQuickActions">
+            <summary>
+            Stores a read only view over the quick actions.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.TimelineItemContainer._AggregatedTimelines">
+            <summary>
+            Stores the aggregated timeline flags where this items should be displayed.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.TimelineItemContainer._HighlightColor">
+            <summary>
+            Stores a color that can be used to highlight the item in the timelines.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.TimelineItemContainer._IsUnread">
+            <summary>
+            Indicates if the item was marked as read or not.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Extensibility.TimelineItemContainer._MarkableAsReadFromCore">
+            <summary>
+            Indicates for the timelineitem container that it is allowed to be marked as read from core or not.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.TimelineItemContainer.#ctor(Seesmic.Sdp.Extensibility.ITimelineItem,System.Collections.Generic.IEnumerable{Seesmic.Sdp.Extensibility.ITimelineItemAction},Seesmic.Sdp.Extensibility.AggregatedTimelines,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Extensibility.TimelineItemContainer"/> class.
+            </summary>
+            <param name="timelineItem">The timeline item.</param>
+            <param name="actions">The actions to add to the container.</param>
+            <param name="aggregatedTimelines">The aggregated timelines where the item should be routed.</param>
+            <param name="markableAsReadFromCore">Specifies whether this <see cref="T:Seesmic.Sdp.Extensibility.TimelineItemContainer"/> can be marked as read from core or not.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.TimelineItemContainer.#ctor(Seesmic.Sdp.Extensibility.ITimelineItem,System.Collections.Generic.IEnumerable{Seesmic.Sdp.Extensibility.ITimelineItemAction},Seesmic.Sdp.Extensibility.AggregatedTimelines)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Extensibility.TimelineItemContainer"/> class.
+            </summary>
+            <param name="timelineItem">The timeline item.</param>
+            <param name="actions">Specifies the associated <see cref="T:Seesmic.Sdp.Extensibility.ITimelineItemAction"/> actions collection.</param>
+            <param name="aggregatedTimelines">The aggregated timelines where the item should be routed.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.TimelineItemContainer.#ctor(Seesmic.Sdp.Extensibility.ITimelineItem,Seesmic.Sdp.Extensibility.AggregatedTimelines,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Extensibility.TimelineItemContainer"/> class.
+            </summary>
+            <param name="timelineItem">The timeline item.</param>
+            <param name="aggregatedTimelines">The aggregated timelines where the item should be routed.</param>
+            <param name="markableAsReadFromCore">Specifies whether this <see cref="T:Seesmic.Sdp.Extensibility.TimelineItemContainer"/> can be marked as read from core or nor.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.TimelineItemContainer.#ctor(Seesmic.Sdp.Extensibility.ITimelineItem,Seesmic.Sdp.Extensibility.AggregatedTimelines)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Extensibility.TimelineItemContainer"/> class.
+            </summary>
+            <param name="timelineItem">The timeline item.</param>
+            <param name="aggregatedTimelines">The aggregated timelines where the item should be routed.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.TimelineItemContainer.#ctor(Seesmic.Sdp.Extensibility.ITimelineItem,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Extensibility.TimelineItemContainer"/> class.
+            </summary>
+            <param name="timelineItem">The timeline item.</param>
+            <param name="markableAsReadFromCore">Specifies whether this <see cref="T:Seesmic.Sdp.Extensibility.TimelineItemContainer"/> can be marked as read from core or not.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.TimelineItemContainer.#ctor(Seesmic.Sdp.Extensibility.ITimelineItem)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Extensibility.TimelineItemContainer"/> class.
+            </summary>
+            <param name="timelineItem">The timeline item.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.TimelineItemContainer.AddMetadata(System.String,System.Object)">
+            <summary>
+            Adds a metadata item to this container.
+            </summary>
+            <param name="key">The key of the metadata item.</param>
+            <param name="value">The value of the metadata item.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.TimelineItemContainer.GetMetadata(System.String)">
+            <summary>
+            Gets the metadata with the specified key.
+            </summary>
+            <param name="key">The key to get the metadata value.</param>
+            <returns>The metadata corresponding to the specified key.</returns>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException">The given key is not found in the metadata collection.</exception>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.TimelineItemContainer.TryGetMetadata(System.String,System.Object@)">
+            <summary>
+            Attempts to retrieve the metadata with the specified key.
+            </summary>
+            <param name="key">The key to get the metadata value.</param>
+            <param name="value">The value of the metadata.</param>
+            <returns><c>true</c> if the information was retrieved successfully; <c>false</c> if the given key was not found.</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.TimelineItemContainer.GetMetadata``1(System.String)">
+            <summary>
+            Gets the metadata with the specified key.
+            </summary>
+            <typeparam name="T">The type of the metadata information to retrieve.</typeparam>
+            <param name="key">The key to get the metadata value.</param>
+            <returns>The metadata corresponding to the specified key.</returns>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException">The given key is not found in the metadata collection.</exception>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.TimelineItemContainer.TryGetMetadata``1(System.String,``0@)">
+            <summary>
+            Attempts to retrieve the metadata with the specified key.
+            </summary>
+            <typeparam name="T">The type of the metadata information to retrieve.</typeparam>
+            <param name="key">The key to get the metadata value.</param>
+            <param name="value">The value of the metadata.</param>
+            <returns><c>true</c> if the information was retrieved successfully; <c>false</c> if the given key was not found.</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.TimelineItemContainer.AddAttachment(Seesmic.Sdp.Extensibility.ITimelineItemAttachment)">
+            <summary>
+            Adds an attachment to the timeline item.
+            </summary>
+            <param name="attachment">The attachment to add to the timeline item.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.TimelineItemContainer.RemoveAttachment(Seesmic.Sdp.Extensibility.ITimelineItemAttachment)">
+            <summary>
+            Removes the specified attachment from the collection.
+            </summary>
+            <param name="attachment">The attachment to remove.</param>
+            <returns><c>true</c> if the item was removed; <c>false</c> if it was not found.</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.TimelineItemContainer.AddAction(Seesmic.Sdp.Extensibility.ITimelineItemAction)">
+            <summary>
+            Adds the specified action to the timeline item container.
+            </summary>
+            <param name="action">The action to add to the timeline item container.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.TimelineItemContainer.RemoveAction(Seesmic.Sdp.Extensibility.ITimelineItemAction)">
+            <summary>
+            Removes the specified action from the collection.
+            </summary>
+            <param name="action">The action to remove from the collection.</param>
+            <returns><c>true</c> if the item was removed; <c>false</c> if it was not found.</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.TimelineItemContainer.AddQuickAction(Seesmic.Sdp.Extensibility.ITimelineItemAction)">
+            <summary>
+            Adds the specified quick action to the timeline item container.
+            </summary>
+            <param name="action">The quick action to add to the timeline item container.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.TimelineItemContainer.RemoveQuickAction(Seesmic.Sdp.Extensibility.ITimelineItemAction)">
+            <summary>
+            Removes the specified quick action from the collection.
+            </summary>
+            <param name="action">The quick action to remove from the collection.</param>
+            <returns><c>true</c> if the item was removed; <c>false</c> if it was not found.</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.TimelineItemContainer.GetHashCode">
+            <inheritdoc />
+        </member>
+        <member name="M:Seesmic.Sdp.Extensibility.TimelineItemContainer.Equals(Seesmic.Sdp.Extensibility.TimelineItemContainer)">
+            <inheritdoc />
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.TimelineItemContainer.TimelineItem">
+            <summary>
+            Gets the timeline item instance.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.TimelineItemContainer.TimelineItemType">
+            <summary>
+            Gets the type of timeline item.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.TimelineItemContainer.Metadata">
+            <summary>
+            Gets the Metadata associated with the timeline item.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.TimelineItemContainer.Attachments">
+            <summary>
+            Gets the attachments of the timeline item.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.TimelineItemContainer.Actions">
+            <summary>
+            Gets the actions available for the timeline item.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.TimelineItemContainer.QuickActions">
+            <summary>
+            Gets the quick actions available for the timeline item.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.TimelineItemContainer.AggregatedTimelines">
+            <summary>
+            Gets or sets the aggregated timelines where the item should be routed.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.TimelineItemContainer.HighlightColor">
+            <summary>
+            Gets or sets the color to be used for highlighting the item in the timelines.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.TimelineItemContainer.IsUnread">
+            <summary>
+            Sets or gets the read state of the timelineitem container
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.TimelineItemContainer.MarkableAsReadFromCore">
+            <summary>
+            Indicates for the timelineitem container that it is allowed to be marked as read from core or not.
+            </summary>
+        </member>
+        <member name="E:Seesmic.Sdp.Extensibility.TimelineItemContainer.AggregatedTimelinesChanged">
+            <summary>
+            Occurs when aggregated timeline flags changed.
+            </summary>
+        </member>
+        <member name="E:Seesmic.Sdp.Extensibility.TimelineItemContainer.IsUnreadChanged">
+            <summary>
+            Occurs when timelineItem container changes its IsUnread property.
+            </summary>
+        </member>
+        <member name="E:Seesmic.Sdp.Extensibility.TimelineItemContainer.TimelineItemPropertyChanged">
+            <summary>
+            Raised when a property of the timeline item has changed.
+            </summary>
+        </member>
+        <member name="E:Seesmic.Sdp.Extensibility.TimelineItemContainer.PropertyChanged">
+            <inheritdoc />
+        </member>
+        <member name="T:Seesmic.Sdp.Extensibility.UrlPreviewProvider">
+            <summary>
+            Contract for url preview providers.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.UrlPreviewProvider.Id">
+            <summary>
+            Gets the unique Id of the url preview provider.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.UrlPreviewProvider.UrlPreviewTemplate">
+            <summary>
+            Gets the data template of the url preview provider.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Extensibility.UrlPreviewProvider.Icon">
+            <summary>
+            Gets the icon of the url preview provider.
+            </summary>
+        </member>
+    </members>
+</doc>

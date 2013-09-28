@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="ff29c3b4-1107-459f-ab0d-9dccae7c07e7" name="Joe@JOE-PDC 2010-07-12 15:06:36" runUser="Joe-PDC\Joe" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestSettings name="Local" id="7657ee9f-6b13-4592-87be-03ca8606b8d6">
+    <Description>These are default test settings for a local test run.</Description>
+    <Deployment userDeploymentRoot="C:\Projects\Projects\Seesmic VideoPreview Plugin\Biggert.Seesmic.VideoPreview\TestResults" useDefaultDeploymentRoot="false" enabled="false" runDeploymentRoot="Joe_JOE-PDC 2010-07-12 15_06_36" />
+    <Execution>
+      <TestTypeSpecific />
+      <AgentRule name="Execution Agents">
+      </AgentRule>
+    </Execution>
+  </TestSettings>
+  <Times creation="2010-07-12T15:06:36.8682533-05:00" queuing="2010-07-12T15:06:36.9932605-05:00" start="2010-07-12T15:06:37.1082671-05:00" finish="2010-07-12T15:06:38.2723337-05:00" />
+  <ResultSummary outcome="Failed">
+    <Counters total="1" executed="1" error="0" failed="1" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" passed="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+  <TestDefinitions>
+    <UnitTest name="YouTube_VidID_Test" storage="c:\projects\projects\seesmic videopreview plugin\biggert.seesmic.videopreview\unittests\bin\debug\unittests.dll" id="462e535a-5f76-3cf4-c0dc-ccc7dbd9155a">
+      <Execution id="2ba623c6-3332-467f-9c50-05b6d798c6ab" />
+      <TestMethod codeBase="C:/Projects/Projects/Seesmic VideoPreview Plugin/Biggert.Seesmic.VideoPreview/UnitTests/bin/Debug/UnitTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="UnitTests.UnitTest1, UnitTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="YouTube_VidID_Test" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <TestEntries>
+    <TestEntry testId="462e535a-5f76-3cf4-c0dc-ccc7dbd9155a" executionId="2ba623c6-3332-467f-9c50-05b6d798c6ab" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <Results>
+    <UnitTestResult executionId="2ba623c6-3332-467f-9c50-05b6d798c6ab" testId="462e535a-5f76-3cf4-c0dc-ccc7dbd9155a" testName="YouTube_VidID_Test" computerName="JOE-PDC" duration="00:00:00.1859751" startTime="2010-07-12T15:06:37.2602758-05:00" endTime="2010-07-12T15:06:38.0763224-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2ba623c6-3332-467f-9c50-05b6d798c6ab">
+      <Output>
+        <ErrorInfo>
+          <Message>Test method UnitTests.UnitTest1.YouTube_VidID_Test threw exception: 
+System.ArgumentException: parsing "http://www.youtube.com/watch\?v=(?&lt;VideoID&gt;[]*)" - Unterminated [] set.</Message>
+          <StackTrace>    at System.Text.RegularExpressions.RegexParser.ScanCharClass(Boolean caseInsensitive, Boolean scanOnly)
+   at System.Text.RegularExpressions.RegexParser.CountCaptures()
+   at System.Text.RegularExpressions.RegexParser.Parse(String re, RegexOptions op)
+   at System.Text.RegularExpressions.Regex..ctor(String pattern, RegexOptions options, Boolean useCache)
+   at System.Text.RegularExpressions.Regex..ctor(String pattern)
+   at UnitTests.UnitTest1.YouTube_VidID_Test() in C:\Projects\Projects\Seesmic VideoPreview Plugin\Biggert.Seesmic.VideoPreview\UnitTests\UnitTest1.cs:line 63
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+</TestRun>

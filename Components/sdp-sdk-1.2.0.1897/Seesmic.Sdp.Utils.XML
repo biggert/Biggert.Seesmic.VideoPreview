@@ -1,0 +1,1608 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Seesmic.Sdp.Utils</name>
+    </assembly>
+    <members>
+        <member name="T:Seesmic.Sdp.Utils.ComparerConverter">
+            <summary>
+            Provides a way to compare data as it passes through the binding engine.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.ComparerConverter.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Utils.ComparerConverter"/> class.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.ComparerConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Compares the given value to the value of <see cref="P:Seesmic.Sdp.Utils.ComparerConverter.Argument"/> property, or to the parameter value, if Argument was not specified.
+            </summary>
+            <param name="value">The value to compare,</param>
+            <param name="targetType"><inheritdoc/></param>
+            <param name="parameter">If the value of <see cref="P:Seesmic.Sdp.Utils.ComparerConverter.Argument"/> property was not specified, value will be compared to this parameter.</param>
+            <param name="culture"><inheritdoc/></param>
+            <returns>The value of <see cref="P:Seesmic.Sdp.Utils.ComparerConverter.TrueValue"/>, if value equals <see cref="P:Seesmic.Sdp.Utils.ComparerConverter.Argument"/> property value (or parameter, if Argument is not specified);
+            otherwise, <see cref="P:Seesmic.Sdp.Utils.ComparerConverter.FalseValue"/></returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.ComparerConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc/>
+            <remarks>This method is not implemented and always throws <see cref="T:System.NotImplementedException"/>.</remarks>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.ComparerConverter.TrueValue">
+            <summary>
+            The value returned by the converter when the result of the comparison is <c>true</c>.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.ComparerConverter.FalseValue">
+            <summary>
+            The value returned by the converter when the result of the comparison is <c>false</c>.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.ComparerConverter.InverseResult">
+            <summary>
+            Specifies whether the comparison should be inverted.
+            </summary>
+            <remarks>When set to <c>true</c>, the converter returns <see cref="P:Seesmic.Sdp.Utils.ComparerConverter.FalseValue"/> when the result of comparison is <c>true</c>, otherwise the converter returns <see cref="P:Seesmic.Sdp.Utils.ComparerConverter.TrueValue"/>.</remarks>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.ComparerConverter.Argument">
+            <summary>
+            An optional parameter that can be passed to the converter.
+            </summary>
+            <remarks>If specified, the comparison will be made against this value. Otherwise, the comparison will be made against the <see cref="P:System.Windows.Data.Binding.ConverterParameter"/> property value specified in the binding.</remarks>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.ShowMoreTimelineItem">
+            <summary>
+            Timeline item which always appears at the bottom of a timeline and allows the user to request more (older) items.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.ShowMoreTimelineItem.#ctor(System.Windows.Input.ICommand)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Utils.ShowMoreTimelineItem"/> class.
+            </summary>
+            <param name="loadMoreCommand">The command which is executed when loading more (older) items.</param>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.ShowMoreTimelineItem.Id">
+            <summary>
+            Gets or sets the unique id of the timeline item.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.ShowMoreTimelineItem.Username">
+            <summary>
+            Gets or sets the username of the user owning this item.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.ShowMoreTimelineItem.Text">
+            <summary>
+            Gets or sets the text of the timeline item.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.ShowMoreTimelineItem.AvatarUri">
+            <summary>
+            Gets or sets the URI of the avatar image to display in the timeline item.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.ShowMoreTimelineItem.Template">
+            <summary>
+            Gets or sets the data template used to render the timeline item's content.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.ShowMoreTimelineItem.NotificationTemplate">
+            <summary>
+            Gets or sets the data template used to render the timeline item in the toast notification.
+            If null is returned, the default template will be used.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.ShowMoreTimelineItem.DateTime">
+            <summary>
+            Gets or sets the service timestamp of the timeline item.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.ShowMoreTimelineItem.GeoLocation">
+            <summary>
+            Gets or sets the geospatial stamp of the timeline item, if available.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.ShowMoreTimelineItem.LoadMoreCommand">
+            <summary>
+            Gets the command which is executed when loading more (older) items.
+            </summary>
+        </member>
+        <member name="E:Seesmic.Sdp.Utils.ShowMoreTimelineItem.PropertyChanged">
+            <inheritdoc />
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.TimelineControl">
+            <summary>
+            Control used to display a timeline.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.TimelineControl.TimelineProperty">
+            <summary>
+            Identifies the <see cref="P:Seesmic.Sdp.Utils.TimelineControl.Timeline"/> dependency property.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.TimelineControl.LoadMoreItemTemplateProperty">
+            <summary>
+            Identifies the <see cref="P:Seesmic.Sdp.Utils.TimelineControl.LoadMoreItemTemplate"/> dependency property.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.TimelineControl.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Utils.TimelineControl"/> class.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.TimelineControl.OnApplyTemplate">
+            <inheritdoc />
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.TimelineControl.OnItemsChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.TimelineControl.GetContainerForItemOverride">
+            <inheritdoc />
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.TimelineControl.PrepareContainerForItemOverride(System.Windows.DependencyObject,System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.TimelineControl.EnsureFirstItemHighlighted">
+            <summary>
+            This method verifies that a highlighted item already exists on the screen (as an initial navigation point). If it doesn't, it selected the first item visible on screen.
+            </summary>
+            <returns>True if there is already an initial item available as a navigation origin; false in case the initial item was set by this method.</returns>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.TimelineControl.Timeline">
+            <summary>
+            Gets or sets the timeline associated with this control.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.TimelineControl.LoadMoreItemTemplate">
+            <summary>
+            Gets or sets the data template used to display the "Load More" timeline item.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.TimelineControl.LoadMoreCommand">
+            <summary>
+            Gets the command which is executed when loading more (older) items.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.TimelineItemControl">
+            <summary>
+            Control used to display a timeline item.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.TimelineItemControl.#ctor(Seesmic.Sdp.Utils.TimelineControl)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Utils.TimelineItemControl"/> class.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.DataTemplateHelper">
+            <summary>
+            Provides helper methods for building and managing <see cref="T:System.Windows.DataTemplate"/>s.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.DataTemplateHelper.DataTemplateFromImage(System.String)">
+            <summary>
+            Wraps an image in a <see cref="T:System.Windows.DataTemplate"/>.
+            </summary>
+            <param name="sourceString">The source of the image.</param>
+            <returns>A <see cref="T:System.Windows.DataTemplate"/> containing the image.</returns>
+            <remarks>The image <see cref="P:System.Windows.FrameworkElement.Width"/> and <see cref="P:System.Windows.FrameworkElement.Height"/> are both set to 20.</remarks>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.DelegateCommand">
+            <summary>
+            Provides a basic implementation of the <see cref="T:System.Windows.Input.ICommand"/> interface.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.ObservableObject">
+            <summary>
+            Serves as base class for classes that support property change notifications.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.ObservableObject.OnPropertyChanged(System.String)">
+            <summary>
+            Called when a property has been changed.
+            </summary>
+            <param name="propertyName">The name of the property.</param>
+        </member>
+        <member name="E:Seesmic.Sdp.Utils.ObservableObject.PropertyChanged">
+            <summary>
+            Occurs when a property value changes.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.DelegateCommand._execute">
+            <summary>
+            Stores a reference to the execute method.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.DelegateCommand._canExecute">
+            <summary>
+            Stores a reference to the can execute method.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.DelegateCommand._Text">
+            <summary>
+            Stores a reference to the text.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.DelegateCommand.#ctor(System.Action{System.Object})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Utils.DelegateCommand"/> class.
+            </summary>
+            <param name="execute">The action to be executed by the command.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.DelegateCommand.#ctor(System.Action)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Utils.DelegateCommand"/> class.
+            </summary>
+            <param name="execute">The action to be executed by the command.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.DelegateCommand.#ctor(System.Action{System.Object},System.Func{System.Object,System.Boolean})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Utils.DelegateCommand"/> class.
+            </summary>
+            <param name="execute">The action to be executed by the command.</param>
+            <param name="canExecute">Specifies whether the command can execute or not.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.DelegateCommand.#ctor(System.Action,System.Func{System.Boolean})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Utils.DelegateCommand"/> class.
+            </summary>
+            <param name="execute">The action to be executed by the command.</param>
+            <param name="canExecute">Specifies whether the command can execute or not.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.DelegateCommand.OnCanExecuteChanged">
+            <summary>
+            Raises the CanExecuteChanged event.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.DelegateCommand.CanExecute(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.DelegateCommand.Execute(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.DelegateCommand.Refresh">
+            <summary>
+            Raises the <see cref="E:Seesmic.Sdp.Utils.DelegateCommand.CanExecuteChanged"/> event 
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.DelegateCommand.Icon">
+            <summary>
+            Gets or sets the icon for the command.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.DelegateCommand.CommandParameter">
+            <summary>
+            Gets or sets the parameter of this command.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.DelegateCommand.Text">
+            <summary>
+            Gets or sets the text used to display the command in a menu.
+            </summary>
+        </member>
+        <member name="E:Seesmic.Sdp.Utils.DelegateCommand.CanExecuteChanged">
+            <summary>
+            Occurs when changes occur that affect whether or not the command should execute.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.FrameworkElementExtension">
+            <summary>
+            Provides extension methods for locating resources.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.FrameworkElementExtension.TryFindResource(System.Windows.FrameworkElement,System.Object)">
+            <summary>
+            Finds a resource having the specified resource key.
+            </summary>
+            <param name="element">The <see cref="T:System.Windows.FrameworkElement"/> to search for the resource.</param>
+            <param name="resourceKey">The resource key.</param>
+            <returns>The resource identified by the resource key, or <c>null</c> if the resource is not found.</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.FrameworkElementExtension.TryFindResource(System.Windows.Application,System.Object)">
+            <summary>
+            Finds a resource having the specified resource key.
+            </summary>
+            <param name="application">The <see cref="T:System.Windows.Application"/> to search for the resource.</param>
+            <param name="resourceKey">The resource key.</param>
+            <returns>The resource identified by the resource key, or <c>null</c> if the resource is not found.</returns>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.GlobalMetadataKeys">
+            <summary>
+            Holds a set of metadata keys which are globally available.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.GlobalMetadataKeys.TimelineItemPlainTextKey">
+            <summary>
+            Metadata key for the plain text property of a timeline item
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.GlobalMetadataKeys.TimelineItemPermalinkKey">
+            <summary>
+            Metadata key for the permalink property of a timeline item
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.GlobalMetadataKeys.TimelineItemUrlsDictionaryKey">
+            <summary>
+            Metadata key for the urls dictionary property of a timeline item
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.ConverterHelper">
+            <summary>
+            Helper for converting objects to different types.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.ConverterHelper.ConvertToType(System.Object,System.Type)">
+            <summary>
+            Attempts to convert the provided value to the specified type
+            </summary>
+            <param name="value">object to be converted</param>
+            <param name="type">Type to be converted to</param>
+            <returns></returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.ConverterHelper.GetTypeConverter(System.Type)">
+            <summary>
+            Finds the type converter for the specified type.
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.ConvertFromStringConverter">
+            <summary>
+            General string to object converter which uses the internal
+            platforms type converters.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.ConvertFromStringConverter.#ctor(System.Type)">
+            <summary>
+            General purpose converter that converts from a string to the specified type.
+            </summary>
+            <param name="type"></param>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.ConvertFromStringConverter.CanConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Type)">
+            <summary>
+            Allow conversion from strings.
+            </summary>
+            <param name="context"></param>
+            <param name="sourceType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.ConvertFromStringConverter.ConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object)">
+            <summary>
+            Convert the value
+            </summary>
+            <param name="context"></param>
+            <param name="culture"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.HyperlinkHelper">
+            <summary>
+            Provides hyperlinks with the option of adding a Tag attached property to them
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.HyperlinkHelper.GetTag(System.Windows.DependencyObject)">
+            <summary>
+            Gets the Tag attached property value.
+            </summary>
+            <param name="obj">The object to which the <see cref="T:System.Windows.DependencyProperty"/> is attached.</param>
+            <returns>The value of Tag property</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.HyperlinkHelper.SetTag(System.Windows.DependencyObject,System.Object)">
+            <summary>
+            Sets the Tag attached property value.
+            </summary>
+            <param name="obj">The object to which the property is attached.</param>
+            <param name="value">The value to set to the Tag property.</param>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.HyperlinkHelper.TagProperty">
+            <summary>
+            Identifies the Tag attached property.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.ImagePostingProviderBase">
+            <summary>
+            Provides a base implementation of <see cref="T:Seesmic.Sdp.Extensibility.IImagePostingProvider"/> interface.
+            </summary>
+            <remarks>This class is deprecated. Please use <see cref="T:Seesmic.Sdp.Extensibility.IImagePostingProvider"/> interface instead.</remarks>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.ImagePostingProviderBase.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Utils.ImagePostingProviderBase"/> class.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.ImagePostingProviderBase.UploadAsync(System.IO.FileInfo,System.Object,Seesmic.Sdp.Extensibility.AsyncCompletedCallback{System.String})">
+            <summary>
+            Asynchronously uploads an image.
+            </summary>
+            <param name="selectedFile">The image file that is uploaded.</param>
+            <param name="userState">The unique identifier for the asynchronous task.</param>
+            <param name="callback">Callback to be invoked when upload completes.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.ImagePostingProviderBase.AuthenticateRequest(System.Net.WebRequest)">
+            <summary>
+            Authenticates the specified request.
+            </summary>
+            <param name="request">The request to be autenticated.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.ImagePostingProviderBase.AddPostField(System.String,System.String)">
+            <summary>
+            Adds a post field to the image posting provider.
+            </summary>
+            <param name="name">The name of the post field.</param>
+            <param name="value">The value of the post field.</param>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.ImagePostingProviderBase.Id">
+            <inheritdoc />
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.ImagePostingProviderBase.Icon">
+            <inheritdoc />
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.ImagePostingProviderBase.Text">
+            <inheritdoc />
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.ImagePostingProviderBase.Username">
+            <summary>
+            Gets or sets the username used to authenticate the <see cref="T:Seesmic.Sdp.Utils.ImagePostingProviderBase"/>.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.ImagePostingProviderBase.Password">
+            <summary>
+            Gets or sets the password used to authenticate the <see cref="T:Seesmic.Sdp.Utils.ImagePostingProviderBase"/>.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.ImagePostingProviderBase.ServiceUrl">
+            <summary>
+            Gets the service url of the <see cref="T:Seesmic.Sdp.Utils.ImagePostingProviderBase"/>.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.ImagePostingProviderBase.ContentType">
+            <summary>
+            Gets the content type of the <see cref="T:Seesmic.Sdp.Utils.ImagePostingProviderBase"/>.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.ImagePostingProviderBase.Type">
+            <summary>
+            Gets the post type of the <see cref="T:Seesmic.Sdp.Utils.ImagePostingProviderBase"/>.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.ImagePostingProviderBase.PostResultAction">
+            <summary>
+            Gets the action that is performed after posting an image with this provider.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.ImagePostingProviderBase.PostType">
+            <summary>
+            Contains a list of image post types.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.ImagePostingProviderBase.PostType.MultipartFormData">
+            <summary>
+            MultipartFormData post type
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.ImagePostingProviderBase.PostType.Binary">
+            <summary>
+            Binary post type
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.IOAuthEchoProvider">
+            <summary>
+            Defines the contract for OAuth echo providers.
+            </summary>    
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.IOAuthEchoProvider.GetHeader(System.String)">
+            <summary>
+            Generates the authentication header using the specified format.
+            </summary>
+            <param name="format">The format of the header (xml or json).</param>
+            <returns>The OAuth header.</returns>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.IOAuthEchoProvider.OAuthEchoService">
+            <summary>
+            Gets the name of the attached OAuth Echo service.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.ItemHighlightColors">
+            <summary>
+            Provides default values for item highlight colors.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.ItemHighlightColors.Sent">
+            <summary>
+            Predefined color for own items.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.ItemHighlightColors.Reply">
+            <summary>
+            Predefined color for reply items.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.ItemHighlightColors.PrivateReceived">
+            <summary>
+            Predefined color for received private items.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.ItemHighlightColors.PrivateSent">
+            <summary>
+            Predefined color for sent private items.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.LastItemTimestampManager">
+            <summary>
+            Stores timestamp values locally for the last received items as key-value pairs
+            where the key is the persistenceId representing the provider that generated the item, 
+            and value is the actual timestamp.
+            
+            Next time when the application starts and <see cref="M:Seesmic.Sdp.Utils.LastItemTimestampManager.LoadLastTimeStamps"/> is called, 
+            only items newer than the stored timestamp values will be marked as unread.
+            
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.LastItemTimestampManager._persistanceKey">
+            <summary>
+            Stores the persistance key for timestamps storage.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.LastItemTimestampManager._LastItemTimeStampDictionary">
+            <summary>
+            Keeps last timelineitem timestamp per provider as were saved at last application close.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.LastItemTimestampManager._CurrentLastItemTimeStampDictionary">
+            <summary>
+            Keeps last loaded timelineitem timestamp for saving at application close.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.LastItemTimestampManager._PluginPersistenceId">
+            <summary>
+            Stores persistence id as string for the plugin.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.LastItemTimestampManager._StorageService">
+            <summary>
+            Stores a reference to StorageService as used by the plugin.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.LastItemTimestampManager._KeyValueSeparator">
+            <summary>
+            Stores the string that separates key from value in stored string.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.LastItemTimestampManager._PairsSeparator">
+            <summary>
+            Stores the string that separates different key-value pairs in stored string.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.LastItemTimestampManager.#ctor(System.Guid,Seesmic.Sdp.Extensibility.IStorageService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Utils.LastItemTimestampManager"/> class.
+            </summary>
+            <param name="pluginPersistenceId">Persistence id for the plugin that instantiates the manager.</param>
+            <param name="storageService">Reference to storage service as used by the plugin.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.LastItemTimestampManager.GetLastTimeStamp(System.String)">
+            <summary>
+            Gets the last timestamp for a specific id.
+            </summary>
+            <param name="persistId">The id for which to get the last timestamp.</param>
+            <returns>The last timestamp for a specific id.</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.LastItemTimestampManager.SetLastTimeStamp(System.String,System.Int64)">
+            <summary>
+            Tries to set a new last timestamp for a specific id. Checks before if the value is bigger than the existing one
+            </summary>
+            <param name="persistId">The id for which to set the last timestamp.</param>
+            <param name="latestItemTimeStamp">The timestamp which is set.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.LastItemTimestampManager.SaveLastTimeStamps">
+            <summary>
+            Saves timestamp values of the last items through StorageService.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.LastItemTimestampManager.LoadLastTimeStamps">
+            <summary>
+            Loads saved timestamp values through StorageService.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.LastItemTimestampManager.ClearTimeStamps">
+            <summary>
+            Clears all timestamps.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.LastItemTimestampManager.RemoveTimestampForId(System.String)">
+            <summary>
+            Removes stored timestamp for an id.
+            </summary>
+            <param name="persistenceId">The id for which to remove the timestamp.</param>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.LastItemTimestampManager.SerializableKeyTimeStampPair">
+            <summary>
+            Represents a serializable timestamp pair. 
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.LastItemTimestampManager.SerializableKeyTimeStampPair.Key">
+            <summary>
+            The key of the item.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.LastItemTimestampManager.SerializableKeyTimeStampPair.TimeStampTicks">
+            <summary>
+            The timestamp ticks of the item.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.ListSynchronizer">
+            <summary>
+            Utility class used to synchronize two lists of different objects.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.ListSynchronizer.Synchronize``2(System.Collections.Generic.IList{``0},System.Collections.Generic.IList{``1},System.Func{``0,``1},System.Action)">
+            <summary>
+            Synchronizes to lists of different objects.
+            </summary>
+            <typeparam name="TSource">The type of items in the source list.</typeparam>
+            <typeparam name="TTarget">The type of items in the target list.</typeparam>
+            <param name="source">The source list.</param>
+            <param name="target">The target list.</param>
+            <param name="targetFactory">The factory method used to instantiate target objects from source objects.</param>
+            <param name="refreshCallback">Callback used to signal that the source list was modified.</param>
+            <returns>An <see cref="T:System.IDisposable"/> object which, when disposed, will restore the source list to its initial state.</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.ListSynchronizer.Synchronize``2(System.Collections.Generic.IList{``0},System.Collections.Generic.IList{``1},System.Func{``0,``1})">
+            <summary>
+            Synchronizes two lists of different objects.
+            </summary>
+            <typeparam name="TSource">The type of items in the source list.</typeparam>
+            <typeparam name="TTarget">The type of items in the target list.</typeparam>
+            <param name="source">The source list.</param>
+            <param name="target">The target list.</param>
+            <param name="targetFactory">The factory method used to instantiate target objects from source objects.</param>
+            <returns>An <see cref="T:System.IDisposable"/> object which, when disposed, will restore the source list to its initial state.</returns>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.ListSynchronizer`2">
+            <summary>
+            Synchronizes two lists of different objects.
+            </summary>
+            <typeparam name="TSource">The type of items in the source list.</typeparam>
+            <typeparam name="TTarget">The type of items in the target list.</typeparam>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.CollectionTracker">
+            <summary>
+            Used to track observable or non-observable collections.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.CollectionTracker.Track``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0},System.Action{``0},System.Boolean)">
+            <summary>
+            Tracks item add and remove changes that occur to the specified collection and executes the appropriate actions.
+            </summary>
+            <typeparam name="TItem">The type of items in the collection.</typeparam>
+            <param name="collection">The collection to track for changes.</param>
+            <param name="onItemAdded">The action that is executed when an item is added to the collection.</param>
+            <param name="onItemRemoved">The action that is executed when an item is removed from the collection.</param>
+            <param name="initialPass">If set to true, the collection is enumerated and the onItemAdded action is executed for each item, when this method is called.</param>
+            <returns>An <see cref="T:System.IDisposable"/> object which, when disposed, will restore the collection to its initial state (the state before tracking was performed).</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.CollectionTracker.Track``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0},System.Boolean)">
+            <summary>
+            Tracks item add changes that occur to the specified collection and executes the appropriate action.
+            </summary>
+            <typeparam name="TItem">The type of items in the collection.</typeparam>
+            <param name="collection">The collection to track for changes.</param>
+            <param name="onItemAdded">The action that is executed when an item is added to the collection.</param>
+            <param name="initialPass">If set to true, the collection is enumerated and the onItemAdded action is executed for each item, when this method is called.</param>
+            <returns>An <see cref="T:System.IDisposable"/> object which, when disposed, will restore the collection to its initial state (the state before tracking was performed).</returns>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.Extensions">
+            <summary>
+            Provides utility extension methods.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.Extensions.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})">
+            <summary>
+            Iterates through an IEnumerable and executes an action for each element.
+            </summary>
+            <typeparam name="T">The type of the elements in the source collection.</typeparam>
+            <param name="source">The source collection to iterate over.</param>
+            <param name="action">The action to execute for each element.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.Extensions.ExecuteAsync(System.Action,System.Action,System.Action{System.Exception})">
+            <summary>
+            Executes the specified action asynchronous.
+            </summary>
+            <param name="asyncAction">The action to execute on a background thread.</param>
+            <param name="successAction">The action to execute in case of success.</param>
+            <param name="failAction">The action to execute in case of an error occurs.</param>
+            <remarks>This method is deprecated. Please use <see cref="M:Seesmic.Sdp.Utils.Extensions.ExecuteAfter(System.TimeSpan,System.Action)"/> instead.</remarks>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.Extensions.ExecuteAsync(System.Action,System.Action)">
+            <summary>
+            Executes the specified action asynchronous.
+            </summary>
+            <param name="asyncAction">The action to execute on a background thread.</param>
+            <param name="successAction">The action to execute in case of success.</param>
+            <remarks>This method is deprecated. Please use <see cref="M:Seesmic.Sdp.Utils.Extensions.ExecuteAfter(System.TimeSpan,System.Action)"/> instead.</remarks>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.Extensions.ExecuteAsync(System.Action)">
+            <summary>
+            Executes the specified action asynchronous.
+            </summary>
+            <param name="asyncAction">The action to execute on a background thread.</param>
+            <remarks>This method is deprecated. Please use <see cref="M:Seesmic.Sdp.Utils.Extensions.ExecuteAfter(System.TimeSpan,System.Action)"/> instead.</remarks>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.Extensions.ExecuteAfter(System.TimeSpan,System.Action)">
+            <summary>
+            Executes the specified action after a specified period of time.
+            </summary>
+            <param name="dueTime">The period of time after which the action is executed.</param>
+            <param name="action">The action to be executed.</param>
+            <returns>An <see cref="T:System.IDisposable"/> object which, when disposed, will clean up the resources which were used when scheduling the action.</returns>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.LocalizationConverter">
+            <summary>
+            Provides a way to specify localized resources in xaml files during data binding.
+            </summary>
+            <remarks>This is how localization is implemented in Seesmic Desktop 2. Depending on the <see cref="P:System.Threading.Thread.CurrentUICulture"/>, the correct resources are loaded
+            from the resource files.</remarks>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.LocalizationConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts the given resource key to the associated resource
+            </summary>
+            <param name="value">The key of the resource.</param>
+            <param name="targetType"><inheritdoc /></param>
+            <param name="parameter"><inheritdoc /></param>
+            <param name="culture"><inheritdoc /></param>
+            <returns>The resource associated to the specified key.</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.LocalizationConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc/>
+            <remarks>This method is not implemented and always throws <see cref="T:System.NotImplementedException"/>.</remarks>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.LocalizationConverter.ResourceManager">
+            <summary>
+            The resource manager used to provides access to culture-specific resources at run time.
+            </summary>
+        </member>
+        <member name="E:Seesmic.Sdp.Utils.LocalizationConverter.ProvideResourceManager">
+            <summary>
+            Raised when a resource manager is provided to the converter.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.LocalizationConverter.ProvideResourceManagerEventArgs">
+            <summary>
+            Contains event data for the <see cref="E:Seesmic.Sdp.Utils.LocalizationConverter.ProvideResourceManager"/> event.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.LocalizationConverter.ProvideResourceManagerEventArgs.ResourceManager">
+            <summary>
+            Gets or sets the <see cref="P:Seesmic.Sdp.Utils.LocalizationConverter.ProvideResourceManagerEventArgs.ResourceManager"/> used to acces culture-specific resources at run time.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.MetadataControl">
+            <summary>
+            Provides a basic control for adding metadata information to timeline items.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.MetadataControl.IsUniversalTimeProperty">
+            <summary>
+            Identifies the <see cref="P:Seesmic.Sdp.Utils.MetadataControl.IsUniversalTime"/> dependency property.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.MetadataControl.TimeProperty">
+            <summary>
+            Identifies the <see cref="P:Seesmic.Sdp.Utils.MetadataControl.Time"/> dependency property.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.MetadataControl.TimeTextProperty">
+            <summary>
+            Identifies the <see cref="P:Seesmic.Sdp.Utils.MetadataControl.TimeText"/> dependency property.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.MetadataControl.ViaTextProperty">
+            <summary>
+            Identifies the <see cref="P:Seesmic.Sdp.Utils.MetadataControl.ViaText"/> dependency property.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.MetadataControl.ViaLinkUriProperty">
+            <summary>
+            Identifies the <see cref="P:Seesmic.Sdp.Utils.MetadataControl.ViaLinkUri"/> dependency property.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.MetadataControl.ViaLabelReplacementProperty">
+            <summary>
+            Identifies the <see cref="P:Seesmic.Sdp.Utils.MetadataControl.ViaLabelReplacement"/> dependency property.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.MetadataControl.SourceLinkVisibilityProperty">
+            <summary>
+            Identifies the <see cref="P:Seesmic.Sdp.Utils.MetadataControl.SourceLinkVisibility"/> dependency property.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.MetadataControl.TimeTextVisibilityProperty">
+            <summary>
+            Identifies the <see cref="P:Seesmic.Sdp.Utils.MetadataControl.TimeTextVisibility"/> dependency property.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.MetadataControl.IsLinkEnabledProperty">
+            <summary>
+            Identifies the <see cref="P:Seesmic.Sdp.Utils.MetadataControl.IsLinkEnabled"/> dependency property.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.MetadataControl.SourceLinkContentProperty">
+            <summary>
+            Identifies the <see cref="P:Seesmic.Sdp.Utils.MetadataControl.SourceLinkContent"/> dependency property.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.MetadataControl.SourceLinkNavigateUriProperty">
+            <summary>
+            Identifies the <see cref="P:Seesmic.Sdp.Utils.MetadataControl.SourceLinkNavigateUri"/> dependency property.
+            </summary>
+            <remarks>This dependeny property is deprecated. Please use <see cref="F:Seesmic.Sdp.Utils.MetadataControl.ViaLinkUriProperty"/> instead.</remarks>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.MetadataControl.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Utils.MetadataControl"/> class.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.MetadataControl.DateTimeToFriendlyString(System.DateTime,System.Boolean)">
+            <summary>
+            Converts the given date and time to a user friendly string.
+            </summary>
+            <param name="t">The date and time to convert.</param>
+            <param name="isUniversalTime">Specifies whether the given date and time is universal (UTC).</param>
+            <returns>A user friendly representation of the specified date and time.</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.MetadataControl.UpdateTime">
+            <summary>
+            Updates the displayed date and time.
+            </summary>
+            <remarks>This methods is called periodically (from a timer) so that, as time passes, the displayed time changes accordingly.</remarks>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.MetadataControl.IsUniversalTime">
+            <summary>
+            Gets or sets a value indicating if the date and time of the associated timeline item is universal (UTC).
+            </summary>
+            <remarks>If true, the input date and time is treated as a UTC (universal time) DateTime.</remarks>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.MetadataControl.Time">
+            <summary>
+            Gets or sets the date and time of the associated timeline item.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.MetadataControl.TimeText">
+            <summary>
+            Gets or sets the display text of the timeline item time.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.MetadataControl.SourceLinkVisibility">
+            <summary>
+            Gets or sets a value indicating if the visibility of the source link.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.MetadataControl.TimeTextVisibility">
+            <summary>
+            Gets or sets a value indicating if the visibility of the time text.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.MetadataControl.IsLinkEnabled">
+            <summary>
+            Gets or sets a value indicating whether the the source link is enabled or not.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.MetadataControl.SourceLinkContent">
+            <summary>
+            Gets or sets a value indicating the content of the source link.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.MetadataControl.SourceLinkNavigateUri">
+            <summary>
+            Gets or sets the uri to which the source link points.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.MetadataControl.ViaText">
+            <summary>
+            Gets or sets the text that is displayed after the word via.
+            </summary>
+            <remarks>If blank "via" will not be displayed.</remarks>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.MetadataControl.ViaLinkUri">
+            <summary>
+            Gets or sets the uri to which the via link points.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.MetadataControl.ViaLabelReplacement">
+            <summary>
+            Gets or sets the alternate text that replaces the word "via" in conjuction with the ViaText property.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.FastObservableCollection`1">
+            <summary>
+            Extends standard observable collection with fast methods for adding data.
+            </summary>
+            <typeparam name="T">The type of items in the collection.</typeparam>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.FastObservableCollection`1.AddRange(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Adds a range of items at the end of the collection.
+            </summary>
+            <param name="items">The items to add at the end of the collection.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.FastObservableCollection`1.OnCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs)">
+            <inheritdoc/>
+            <remarks>The <see cref="E:System.Collections.ObjectModel.ObservableCollection`1.CollectionChanged"/> event is only raised if <see cref="M:Seesmic.Sdp.Utils.FastObservableCollection`1.DeferRefresh"/> was not previously called or after the 
+            <see cref="T:System.IDisposable"/> object returned by it is disposed.</remarks>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.FastObservableCollection`1.DeferRefresh">
+            <summary>
+            Calling this method disables refreshing the UI when changes in the colection occur.
+            </summary>
+            <returns>An <see cref="T:System.IDisposable"/> object which, when disposed, re-enables refreshing the UI when changes in the colection occur.</returns>
+            <remarks>Use this method in a <c>using</c> block when a collection changes rapidly in a short period of time, so that the UI will not have to be refreshed on every
+            collection change.</remarks>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.SidebarAction">
+            <summary>
+            Represents an action in the sidebar.
+            </summary>
+            <example>
+            The following example shows an implementation of the <c>SidebarAction</c> abstract class.
+            <code>
+            public class ExampleSidebarAction : SidebarAction
+            {
+                private ITimeline2 _Timeline;
+            
+                public static Guid ExampleSidebarActionPersistId = new Guid("&lt;Enter your guid here&gt;");
+            
+                public ExampleSidebarAction(ExampleAccount account, ITimeline2 timeline)
+                {
+                    PersistId = string.Format("{0}_{1}", account.Username, ExampleSidebarAction.ExampleSidebarActionPersistId);
+                    Text = account.Username;
+                    _Timeline = timeline;
+                }
+            
+                public override void Invoke(SidebarActionContext context)
+                {
+                    context.Space.AddTimelineColumn(this, _Timeline, Text, Icon);
+                }
+            }
+            </code>
+            </example>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.SidebarAction._Text">
+            <summary>
+            Stores the text of the sidebar action.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.SidebarAction._Icon">
+            <summary>
+            Stores the icon of the sidebar action.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.SidebarAction._IsHighlighted">
+            <summary>
+            Stores the hightlight state of the sidebarAction.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.SidebarAction.Invoke(Seesmic.Sdp.Extensibility.SidebarActionContext)">
+            <summary>
+            Invokes the sidebar action as a response to a user action.
+            </summary>
+            <param name="context">The invocation context of the sidebar action.</param>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.SidebarAction.Text">
+            <summary>
+            Gets or sets the text of the sidebar action.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.SidebarAction.IsHighlighted">
+            <summary>
+            Gets or sets a value indicating whether this action should be highlighted. Used to indicate new content.
+            </summary>
+            <remarks>Implementors can raise a PropertyChanged event if they want to update the UI.</remarks>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.SidebarAction.Icon">
+            <summary>
+            Gets or sets the icon of the sidebar action.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.SidebarAction.PersistId">
+            <summary>
+            Gets or sets the unique Id of this sidebar action to be used for persisting the state.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.SidebarAction.CountsForVisibility">
+            <summary>
+            Gets a value indicating whether this sidebar action should be taken into account when
+            determining if the containing space should be visible.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.SidebarActionGroup">
+            <summary>
+            Basic implementation for a sidebar action group.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.SidebarActionGroup._SidebarActions">
+            <summary>
+            Stores the collection of actiona in this group.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.SidebarActionGroup._ReadOnlySidebarActions">
+            <summary>
+            Stores a read only view over the actiona in this group.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.SidebarActionGroup._CanInvoke">
+            <summary>
+            Indicates whether this instance supports invocation.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.SidebarActionGroup._NeedsSorting">
+            <summary>
+            Indicates whether sorting is needed on sidebar actions
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.SidebarActionGroup.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Utils.SidebarActionGroup"/> class.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.SidebarActionGroup.AddSidebarAction(Seesmic.Sdp.Extensibility.ISidebarAction)">
+            <summary>
+            Adds the specified sidebar action to this group.
+            </summary>
+            <param name="sidebarAction">The sidebar action to add to the group.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.SidebarActionGroup.RemoveSidebarAction(Seesmic.Sdp.Extensibility.ISidebarAction)">
+            <summary>
+            Removes the specified sidebar action from this group.
+            </summary>
+            <param name="sidebarAction">The sidebar action to remove.</param>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.SidebarActionGroup.SidebarActions">
+            <summary>
+            Gets the sidebar action in this group.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.SidebarActionGroup.CanInvoke">
+            <summary>
+            Gets a value indicating whether the header of the sidebar action group can be invoked.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.SidebarActionGroup.Seesmic#Sdp#Extensibility#ISidebarActionGroup#SidebarActions">
+            <summary>
+            Gets the sidebar actions under this category.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.SidebarActionGroup.NeedsSorting">
+            <summary>
+            Sets a value indicating whether the sidebar actions in this group will be sorted.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.SynchronizationHelper">
+            <summary>
+            Provides utility methods for synchronizing thread access.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.SynchronizationHelper._MainThread">
+            <summary>
+            Stores a reference to the main thread.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.SynchronizationHelper._SynchronizationContext">
+            <summary>
+            Stores a reference to the synchronization context used to sync UI threads.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.SynchronizationHelper._IsShuttingDown">
+            <summary>
+            Stores a value indicating whether the application is shutting down.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.SynchronizationHelper.#cctor">
+            <summary>
+            Initializes the <see cref="T:Seesmic.Sdp.Utils.SynchronizationHelper"/> class.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.SynchronizationHelper.CheckMainThread">
+            <summary>
+            Checks if the current thread is the main thread.
+            </summary>
+            <returns>True if the current thread is the main thread; False otherwise.</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.SynchronizationHelper.VerifyThreadAccess">
+            <summary>
+            Verifies if the current thread is the main thread and throws an exception otherwise.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.SynchronizationHelper.Post(System.Action)">
+            <summary>
+            Schedules the specified action to be executed on the main thread.
+            </summary>
+            <param name="action">The action to schedule.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.SynchronizationHelper.Post``1(System.Action{``0},``0)">
+            <summary>
+            Schedules the specified action to be executed on the main thread.
+            </summary>
+            <typeparam name="T">The type of the parameter that the action requires.</typeparam>
+            <param name="action">The action to schedule.</param>
+            <param name="parameter">The parameter of the action.</param>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.SynchronizationHelper.CurrentUICultureInfo">
+            <summary>
+            Gets or sets the current culture info of the <b>UI thread</b>.
+            </summary>
+            <value>Reference to the current UI culture info.</value>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.TextRenderer">
+            <summary>
+            Renders plain text into rich content. This is used to render content for the timeline items.
+            It can recognize content as hyperlinks, user references, custom etc. and renders it accordingly.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.TextRenderer.SourceProperty">
+            <summary>
+            Identifies the Source attached proerty.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.TextRenderer.GetSource(System.Windows.DependencyObject)">
+            <summary>
+            Gets the Source attached property value.
+            </summary>
+            <param name="d">The object to which the <see cref="T:System.Windows.DependencyProperty"/> is attached.</param>
+            <returns>The value of Source property</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.TextRenderer.SetSource(System.Windows.DependencyObject,System.Object)">
+            <summary>
+            Sets the Source attached property value.
+            </summary>
+            <param name="d">The object to which the property is attached.</param>
+            <param name="value">The value to set to the Source property.</param>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.TextRenderer.DynamicFontSizeProperty">
+            <summary>
+            Identifies the DynamicFontSize attached proerty.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.TextRenderer.GetDynamicFontSize(System.Windows.DependencyObject)">
+            <summary>
+            Gets the DynamicFontSize attached property value.
+            </summary>
+            <param name="d">The object to which the <see cref="T:System.Windows.DependencyProperty"/> is attached.</param>
+            <returns>The value of DynamicFontSize property</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.TextRenderer.SetDynamicFontSize(System.Windows.DependencyObject,System.Double)">
+            <summary>
+            Sets the DynamicFontSize attached property value.
+            </summary>
+            <param name="d">The object to which the property is attached.</param>
+            <param name="value">The value to set to the DynamicFontSize property.</param>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.TextRenderer.UseDynamicFontFamilyProperty">
+            <summary>
+            Identifies the UseDynamicFontFamily attached proerty.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.TextRenderer.GetUseDynamicFontFamily(System.Windows.DependencyObject)">
+            <summary>
+            Gets the UseDynamicFontFamily attached property value.
+            </summary>
+            <param name="d">The object to which the <see cref="T:System.Windows.DependencyProperty"/> is attached.</param>
+            <returns>The value of UseDynamicFontFamily property</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.TextRenderer.SetUseDynamicFontFamily(System.Windows.DependencyObject,System.Boolean)">
+            <summary>
+            Sets the UseDynamicFontFamily attached property value.
+            </summary>
+            <param name="d">The object to which the property is attached.</param>
+            <param name="value">The value to set to the UseDynamicFontFamily property.</param>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.TextRenderer.TokenDefinitionsProperty">
+            <summary>
+            Identifies the TokenDefinitions attached proerty.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.TextRenderer.GetTokenDefinitions(System.Windows.DependencyObject)">
+            <summary>
+            Gets the TokenDefinitions attached property value.
+            </summary>
+            <param name="d">The object to which the <see cref="T:System.Windows.DependencyProperty"/> is attached.</param>
+            <returns>The value of TokenDefinitions property</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.TextRenderer.SetTokenDefinitions(System.Windows.DependencyObject,Seesmic.Sdp.Utils.TokenDefinitionCollection)">
+            <summary>
+            Sets the TokenDefinitions attached property value.
+            </summary>
+            <param name="d">The object to which the property is attached.</param>
+            <param name="value">The value to set to the TokenDefinitions property.</param>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.TextRenderer.DeferParsing">
+            <summary>
+            Gets or sets a value indicating whether parsing content is deferred or not.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.TextRenderer.FontSizeFactor">
+            <summary>
+            Gets a value indicating the factor by which the font size is multiplied.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.TextRenderer.FontFamily">
+            <summary>
+            Gets a value indicating the font family of the content.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.TextRenderer.FontSizeSource">
+            <summary>
+            Holds data related to application font size.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.TextRenderer.FontSizeSource.Factor">
+            <summary>
+            Gets or sets the factor by which the font size is multiplied.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.TextRenderer.FontSizeSource.DynamicFontSize">
+            <summary>
+            Gets the dynamic font size which gets multiplied by the factor to get the final font size.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.TextRenderer.FontSizeSource.FontSize">
+            <summary>
+            Gets the font size as a product of <see cref="P:Seesmic.Sdp.Utils.TextRenderer.FontSizeSource.DynamicFontSize"/> and <see cref="P:Seesmic.Sdp.Utils.TextRenderer.FontSizeSource.Factor"/>.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.TextRenderer.FontFamilySource">
+            <summary>
+            Holds data related to application font family.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.TextRenderer.FontFamilySource.FontFamily">
+            <summary>
+            Gets the font family.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.TokenDefinitionCollection">
+            <summary>
+            Represents a collection of <see cref="T:Seesmic.Sdp.Utils.TokenDefinition"/> objects.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.TokenDefinition">
+            <summary>
+            Defines a token which is be parsed by the <see cref="T:Seesmic.Sdp.Utils.TextRenderer"/> engine.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.TokenDefinition.RegexText">
+            <summary>
+            Gets or sets the regular expression which identifies the token.
+            </summary>
+        </member>
+        <member name="E:Seesmic.Sdp.Utils.TokenDefinition.ProvideInlines">
+            <summary>
+            Raised when the token definition needs to provide inlines.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.UrlTokenDefinition">
+            <summary>
+            Defines a url token definition.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.UrlTokenDefinition.HyperlinkRegex">
+            <summary>
+            Regular expression for hyperlinks.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.UrlTokenDefinition.#ctor">
+            <summary>
+            Initializes a new instance of <see cref="T:Seesmic.Sdp.Utils.UrlTokenDefinition"/> class.
+            </summary>
+        </member>
+        <member name="E:Seesmic.Sdp.Utils.UrlTokenDefinition.ProvideInlines">
+            <inheritdoc />
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.BoldTokenDefinition">
+            <summary>
+            Defines a bold (html &lt;b&gt; tag) token definition.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.BoldTokenDefinition.#ctor">
+            <summary>
+            Initializes a new instance of <see cref="T:Seesmic.Sdp.Utils.BoldTokenDefinition"/> class.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.HrefTokenDefinition">
+            <summary>
+            Defines a href (html anchor tag) token definition.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.HrefTokenDefinition.#ctor">
+            <summary>
+            Initializes a new instance of <see cref="T:Seesmic.Sdp.Utils.HrefTokenDefinition"/> class.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.ProvideInlinesEventArgs">
+            <summary>
+            Carries event data for the <see cref="E:Seesmic.Sdp.Utils.TokenDefinition.ProvideInlines"/> event.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.ProvideInlinesEventArgs.#ctor(System.Object,System.String,System.Int32)">
+            <summary>
+            Initializes a new instance of <see cref="T:Seesmic.Sdp.Utils.ProvideInlinesEventArgs"/> class.
+            </summary>
+            <param name="source">The source text.</param>
+            <param name="match">The matching substring.</param>
+            <param name="startIndex">The position in the source text where the first character of the substring was found.</param>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.ProvideInlinesEventArgs.Source">
+            <summary>
+            Gets the source text.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.ProvideInlinesEventArgs.StartIndex">
+            <summary>
+            Gets the position in the source text where the first character of the substring was found.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.ProvideInlinesEventArgs.Match">
+            <summary>
+            Gets the matching substring.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.ProvideInlinesEventArgs.Handled">
+            <summary>
+            Gets whether the event was handled or not.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.ProvideInlinesEventArgs.Inlines">
+            <summary>
+            The inlines collection to which the source text was converted.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.Timeline">
+            <summary>
+            Represents a timeline.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.Timeline._Items">
+            <summary>
+            Stores the underlying collection of timeline item containers.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.Timeline._ReadOnlyItems">
+            <summary>
+            Stores a read only view over the timeline items.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.Timeline._ItemsLocker">
+            <summary>
+            Used to syncrhonize concurrent operations on the collection.
+            </summary>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.Timeline._UnreadItemsCount">
+            <summary>
+            Stores the number of unread items.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.Timeline.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Seesmic.Sdp.Utils.Timeline"/> class.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.Timeline.Validate(Seesmic.Sdp.Extensibility.TimelineItemContainer)">
+            <summary>
+            Allows subclasses to supply own validation logic for items. Default behavior is to test for unicity.
+            </summary>
+            <param name="timelineItemContainer">The timeline item container to validate.</param>
+            <returns>True if the item is valid; False otherwise.</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.Timeline.Add(Seesmic.Sdp.Extensibility.TimelineItemContainer)">
+            <summary>
+            Adds the specified timeline item container to the collection.
+            </summary>
+            <param name="timelineItemContainer">The timeline item container to add to the collection.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.Timeline.Remove(Seesmic.Sdp.Extensibility.TimelineItemContainer)">
+            <summary>
+            Removes the specified timeline item container from the collection.
+            </summary>
+            <param name="timelineItemContainer">The timeline item container to remove from the collection.</param>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.Timeline.MarkAllContentAsRead">
+            <summary>
+            Marks all timelineItem containers as unread.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.Timeline.Clear">
+            <summary>
+            Clears all the items from the timeline.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.Timeline.FetchMoreItems">
+            <summary>
+            Fetches more (older) items from the service provider.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.Timeline.timelineItemContainer_IsUnreadChanged(System.Object,System.EventArgs)">
+            <summary>
+            Called when the timelineitem container changes its read/unread state to update the UnreadItemsCount.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.Timeline.Items">
+            <summary>
+            Gets the items stored in this timeline.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.Timeline.UnreadItemsCount">
+            <summary>
+            Indicates how many items are not marked as read in this timeline.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.Timeline.ShowMoreItemsVisible">
+            <summary>
+            Gets or sets a value indicating whether the "Fetch More Items" indicator should be visible or not.
+            </summary>
+        </member>
+        <member name="P:Seesmic.Sdp.Utils.Timeline.IsFetchingMoreItems">
+            <summary>
+            Gets or sets a value indicating whether more items are currently being fetched.
+            </summary>
+        </member>
+        <member name="E:Seesmic.Sdp.Utils.Timeline.ShowMoreItemsVisibleChanged">
+            <summary>
+            Occurs when the ShowMoreItemsVisible property changes.
+            </summary>
+        </member>
+        <member name="E:Seesmic.Sdp.Utils.Timeline.IsFetchingMoreItemsChanged">
+            <summary>
+            Occurs when the IsFetchingMoreItems property changes.
+            </summary>
+        </member>
+        <member name="E:Seesmic.Sdp.Utils.Timeline.UnreadItemsChanged">
+            <summary>
+            Occurs when the UnreadItemsCount property changes.
+            </summary>
+        </member>
+        <member name="T:System.Windows.Controls.WeakEventListener`3">
+            <summary>
+            Implements a weak event listener that allows the owner to be garbage
+            collected if its only remaining link is an event handler.
+            </summary>
+            <typeparam name="TInstance">Type of rootInstance listening for the event.</typeparam>
+            <typeparam name="TSource">Type of source for the event.</typeparam>
+            <typeparam name="TEventArgs">Type of event arguments for the event.</typeparam>
+        </member>
+        <member name="F:System.Windows.Controls.WeakEventListener`3._weakInstance">
+            <summary>
+            WeakReference to the rootInstance listening for the event.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Controls.WeakEventListener`3._weakSource">
+            <summary>
+            To hold a reference to source object. With this instance the WeakEventListener 
+            can guarantee that the handler gets unregistered when listener is released.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Controls.WeakEventListener`3._onEventAction">
+            <summary>
+            Delegate to the method to call when the event fires.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Controls.WeakEventListener`3._onDetachAction">
+            <summary>
+            Delegate to the method to call when detaching from the event.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Controls.WeakEventListener`3.#ctor(`0,`1)">
+            <summary>
+            Initializes a new instances of the WeakEventListener class.
+            </summary>
+            <param name="instance">Instance subscribing to the event.</param>
+            <param name="source">Source object instance.</param>
+        </member>
+        <member name="M:System.Windows.Controls.WeakEventListener`3.OnEvent(System.Object,`2)">
+            <summary>
+            Handler for the subscribed event calls OnEventAction to handle it.
+            </summary>
+            <param name="source">Event source.</param>
+            <param name="eventArgs">Event arguments.</param>
+        </member>
+        <member name="M:System.Windows.Controls.WeakEventListener`3.Detach">
+            <summary>
+            Detaches from the subscribed event.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Controls.WeakEventListener`3.OnEventAction">
+            <summary>
+            Gets or sets the method to call when the event fires.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Controls.WeakEventListener`3.OnDetachAction">
+            <summary>
+            Gets or sets the method to call when detaching from the event.
+            </summary>
+        </member>
+        <member name="T:Seesmic.Sdp.Utils.WebImageHandler">
+            <summary>
+            Utility class which decodes gif images.
+            </summary>
+            <remarks>This class is needed because the current version of Silverlight does not support gif images.</remarks>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.WebImageHandler.ImageSourceProperty">
+            <summary>
+            Identifies the ImageSource attached proerty.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.WebImageHandler.GetImageSource(System.Windows.DependencyObject)">
+            <summary>
+            Gets the ImageSource attached property value.
+            </summary>
+            <param name="obj">The object to which the <see cref="T:System.Windows.DependencyProperty"/> is attached.</param>
+            <returns>The value of ImageSource property</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.WebImageHandler.SetImageSource(System.Windows.DependencyObject,System.Uri)">
+            <summary>
+            Sets the ImageSource attached property value.
+            </summary>
+            <param name="obj">The object to which the property is attached.</param>
+            <param name="source">The value to set to the ImageSource property.</param>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.WebImageHandler.ImagedOpenedProperty">
+            <summary>
+            Identifies the ImageOpened attached proerty.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.WebImageHandler.GetImagedOpened(System.Windows.DependencyObject)">
+            <summary>
+            Gets the ImageOpened attached property value.
+            </summary>
+            <param name="obj">The object to which the <see cref="T:System.Windows.DependencyProperty"/> is attached.</param>
+            <returns>The value of ImageOpened property</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.WebImageHandler.SetImagedOpened(System.Windows.DependencyObject,System.Windows.RoutedEventHandler)">
+            <summary>
+            Sets the ImageOpened attached property value.
+            </summary>
+            <param name="obj">The object to which the property is attached.</param>
+            <param name="handler">The value to set to the ImageOpened property.</param>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.WebImageHandler.DecodeWidthProperty">
+            <summary>
+            Identifies the DecodeWidth attached proerty.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.WebImageHandler.GetDecodeWidth(System.Windows.DependencyObject)">
+            <summary>
+            Gets the DecodeWidth attached property value.
+            </summary>
+            <param name="obj">The object to which the <see cref="T:System.Windows.DependencyProperty"/> is attached.</param>
+            <returns>The value of DecodeWidth property</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.WebImageHandler.SetDecodeWidth(System.Windows.DependencyObject,System.Double)">
+            <summary>
+            Sets the DecodeWidth attached property value.
+            </summary>
+            <param name="obj">The object to which the property is attached.</param>
+            <param name="width">The value to set to the DecodeWidth property.</param>
+        </member>
+        <member name="F:Seesmic.Sdp.Utils.WebImageHandler.DecodeHeightProperty">
+            <summary>
+            Identifies the DecodeHeight attached proerty.
+            </summary>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.WebImageHandler.GetDecodeHeight(System.Windows.DependencyObject)">
+            <summary>
+            Gets the DecodeHeight attached property value.
+            </summary>
+            <param name="obj">The object to which the <see cref="T:System.Windows.DependencyProperty"/> is attached.</param>
+            <returns>The value of DecodeHeight property</returns>
+        </member>
+        <member name="M:Seesmic.Sdp.Utils.WebImageHandler.SetDecodeHeight(System.Windows.DependencyObject,System.Double)">
+            <summary>
+            Sets the DecodeHeight attached property value.
+            </summary>
+            <param name="obj">The object to which the property is attached.</param>
+            <param name="height">The value to set to the DecodeHeight property.</param>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="5091f000-43f5-4548-8379-b8be2c725a1e" name="Joe@JOE-PDC 2011-07-14 13:18:44" runUser="Joe-PDC\Joe" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestSettings name="Local" id="7657ee9f-6b13-4592-87be-03ca8606b8d6">
+    <Description>These are default test settings for a local test run.</Description>
+    <Deployment userDeploymentRoot="C:\Projects\Projects\Seesmic VideoPreview Plugin\Biggert.Seesmic.VideoPreview\TestResults" useDefaultDeploymentRoot="false" enabled="false" runDeploymentRoot="Joe_JOE-PDC 2011-07-14 13_18_44" />
+    <Execution>
+      <TestTypeSpecific />
+      <AgentRule name="Execution Agents">
+      </AgentRule>
+    </Execution>
+  </TestSettings>
+  <Times creation="2011-07-14T13:18:44.3916827-05:00" queuing="2011-07-14T13:18:48.6279164-05:00" start="2011-07-14T13:18:49.0669415-05:00" finish="2011-07-14T13:18:52.6735356-05:00" />
+  <ResultSummary outcome="Completed">
+    <Counters total="1" executed="1" passed="1" error="0" failed="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+  <TestDefinitions>
+    <UnitTest name="URI_Test" storage="c:\projects\projects\seesmic videopreview plugin\biggert.seesmic.videopreview\unittests\bin\release\unittests.dll" id="9c3691ad-4c8e-ba1b-c06e-6740cb70a957">
+      <Execution id="5694fba3-59b0-4234-9302-73f9c9deb003" />
+      <TestMethod codeBase="C:/Projects/Projects/Seesmic VideoPreview Plugin/Biggert.Seesmic.VideoPreview/UnitTests/bin/Release/UnitTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="UnitTests.UnitTest1, UnitTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="URI_Test" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <TestEntries>
+    <TestEntry testId="9c3691ad-4c8e-ba1b-c06e-6740cb70a957" executionId="5694fba3-59b0-4234-9302-73f9c9deb003" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <Results>
+    <UnitTestResult executionId="5694fba3-59b0-4234-9302-73f9c9deb003" testId="9c3691ad-4c8e-ba1b-c06e-6740cb70a957" testName="URI_Test" computerName="JOE-PDC" duration="00:00:00.0749349" startTime="2011-07-14T13:18:49.4619641-05:00" endTime="2011-07-14T13:18:52.1055118-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5694fba3-59b0-4234-9302-73f9c9deb003">
+    </UnitTestResult>
+  </Results>
+</TestRun>

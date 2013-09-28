@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="3459a860-20b5-4092-aea5-995f94e73736" name="Joe@JOE-PDC 2011-07-14 13:31:52" runUser="Joe-PDC\Joe" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestSettings name="Local" id="7657ee9f-6b13-4592-87be-03ca8606b8d6">
+    <Description>These are default test settings for a local test run.</Description>
+    <Deployment userDeploymentRoot="C:\Projects\Projects\Seesmic VideoPreview Plugin\Biggert.Seesmic.VideoPreview\TestResults" useDefaultDeploymentRoot="false" enabled="false" runDeploymentRoot="Joe_JOE-PDC 2011-07-14 13_31_52" />
+    <Execution>
+      <TestTypeSpecific />
+      <AgentRule name="Execution Agents">
+      </AgentRule>
+    </Execution>
+  </TestSettings>
+  <Times creation="2011-07-14T13:31:52.0225198-05:00" queuing="2011-07-14T13:31:55.7277318-05:00" start="2011-07-14T13:31:56.1627567-05:00" finish="2011-07-14T13:32:02.8301380-05:00" />
+  <ResultSummary outcome="Error">
+    <Counters total="1" executed="1" error="0" failed="0" timeout="0" aborted="1" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" passed="0" completed="0" inProgress="0" pending="0" />
+    <RunInfos>
+      <RunInfo computerName="JOE-PDC" outcome="Error" timestamp="2011-07-14T13:32:02.8231376-05:00">
+        <Text>Test host process exited unexpectedly.</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+  <TestDefinitions>
+    <UnitTest name="URI_Test" storage="c:\projects\projects\seesmic videopreview plugin\biggert.seesmic.videopreview\unittests\bin\release\unittests.dll" id="9c3691ad-4c8e-ba1b-c06e-6740cb70a957">
+      <Execution id="1e921745-bc32-4ce4-8085-f71d2310e389" />
+      <TestMethod codeBase="C:/Projects/Projects/Seesmic VideoPreview Plugin/Biggert.Seesmic.VideoPreview/UnitTests/bin/Release/UnitTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="UnitTests.UnitTest1, UnitTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="URI_Test" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <TestEntries>
+    <TestEntry testId="9c3691ad-4c8e-ba1b-c06e-6740cb70a957" executionId="1e921745-bc32-4ce4-8085-f71d2310e389" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <Results>
+    <UnitTestResult executionId="1e921745-bc32-4ce4-8085-f71d2310e389" testId="9c3691ad-4c8e-ba1b-c06e-6740cb70a957" testName="URI_Test" computerName="JOE-PDC" duration="00:00:05.9163384" startTime="2011-07-14T13:31:56.9137996-05:00" endTime="2011-07-14T13:32:02.8301380-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Aborted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1e921745-bc32-4ce4-8085-f71d2310e389">
+    </UnitTestResult>
+  </Results>
+</TestRun>

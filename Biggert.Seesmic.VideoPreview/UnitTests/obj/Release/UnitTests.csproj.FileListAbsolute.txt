@@ -1,0 +1,10 @@
+C:\Projects\Projects\Seesmic VideoPreview Plugin\Biggert.Seesmic.VideoPreview\UnitTests\bin\Release\UnitTests.dll
+C:\Projects\Projects\Seesmic VideoPreview Plugin\Biggert.Seesmic.VideoPreview\UnitTests\bin\Release\UnitTests.pdb
+C:\Projects\Projects\Seesmic VideoPreview Plugin\Biggert.Seesmic.VideoPreview\UnitTests\obj\Release\ResolveAssemblyReference.cache
+C:\Projects\Projects\Seesmic VideoPreview Plugin\Biggert.Seesmic.VideoPreview\UnitTests\obj\Release\UnitTests.dll
+C:\Projects\Projects\Seesmic VideoPreview Plugin\Biggert.Seesmic.VideoPreview\UnitTests\obj\Release\UnitTests.pdb
+C:\Users\Joe\Documents\visual studio 2010\Projects\VideoPreview\Biggert.Seesmic.VideoPreview\UnitTests\bin\Release\UnitTests.dll
+C:\Users\Joe\Documents\visual studio 2010\Projects\VideoPreview\Biggert.Seesmic.VideoPreview\UnitTests\bin\Release\UnitTests.pdb
+C:\Users\Joe\Documents\visual studio 2010\Projects\VideoPreview\Biggert.Seesmic.VideoPreview\UnitTests\obj\Release\ResolveAssemblyReference.cache
+C:\Users\Joe\Documents\visual studio 2010\Projects\VideoPreview\Biggert.Seesmic.VideoPreview\UnitTests\obj\Release\UnitTests.dll
+C:\Users\Joe\Documents\visual studio 2010\Projects\VideoPreview\Biggert.Seesmic.VideoPreview\UnitTests\obj\Release\UnitTests.pdb

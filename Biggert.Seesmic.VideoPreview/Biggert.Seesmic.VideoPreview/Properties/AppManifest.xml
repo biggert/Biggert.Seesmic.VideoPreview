@@ -1,0 +1,18 @@
+﻿<Deployment xmlns="http://schemas.microsoft.com/client/2007/deployment"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sdp="http://schemas.seesmic.com/sdp/2010/deployment">
+    <sdp:Plugin>
+        <sdp:Id>bc32900d-a9d0-4ac1-a684-98fb9a4d2c19</sdp:Id>
+        <sdp:Name>Video Preview</sdp:Name>
+        <sdp:Description>View Youtube, Twitvid, and Vimeo videos within Seesmic</sdp:Description>
+        <sdp:Version>2.2.2.0</sdp:Version>
+        <sdp:Vendor>Joseph Biggert</sdp:Vendor>
+        <sdp:Copyright>Ms-PL</sdp:Copyright>
+        <sdp:HomepageUrl>http://www.cwithb.com</sdp:HomepageUrl>
+        <sdp:LogoUri>Assets/Images/cwithblogo.png</sdp:LogoUri>
+        <sdp:PlatformVersion>1.2.0.1897</sdp:PlatformVersion>
+        <sdp:UpdatesManifestUrl>http://www.cwithb.com/biggert.seesmic.videopreview.xml</sdp:UpdatesManifestUrl>
+    </sdp:Plugin>
+    <Deployment.Parts>
+    </Deployment.Parts>
+</Deployment>

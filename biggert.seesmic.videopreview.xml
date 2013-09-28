@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<PluginUpdates xmlns="http://schemas.seesmic.com/sdp/2010/deployment"> 
+    <!-- Update for Video Preview plugin --> 
+    <PluginUpdate PluginId="bc32900d-a9d0-4ac1-a684-98fb9a4d2c19" 
+                  Version="2.2.2.0" PlatformVersion="1.2.0.1897" Date="12/19/2011" 
+                  Location="http://www.cwithb.com/wp-content/uploads/Biggert.Seesmic.VideoPreview.xap"> 
+        <PluginUpdate.Description> 
+            Due to issues with unshort.me unshortening URL service (for processing short URLs), now "unshortening" URLs inline instead of using external service.
+        </PluginUpdate.Description> 
+    </PluginUpdate> 
+</PluginUpdates>

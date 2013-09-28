@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="dc9da7ac-e6cb-4590-8dfd-60ffeb090460" name="Joe@JOE-PDC 2010-07-12 15:36:19" runUser="Joe-PDC\Joe" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestSettings name="Local" id="7657ee9f-6b13-4592-87be-03ca8606b8d6">
+    <Description>These are default test settings for a local test run.</Description>
+    <Deployment enabled="false" runDeploymentRoot="Joe_JOE-PDC 2010-07-12 15_36_19" />
+    <Execution>
+      <TestTypeSpecific />
+      <AgentRule name="Execution Agents">
+      </AgentRule>
+    </Execution>
+  </TestSettings>
+  <Times creation="2010-07-12T15:36:19.6242212-05:00" queuing="2010-07-12T15:36:19.6942252-05:00" start="2010-07-12T15:36:19.7282271-05:00" finish="2010-07-12T15:36:20.8832932-05:00" />
+  <ResultSummary outcome="Failed">
+    <Counters total="8" executed="8" passed="6" error="0" failed="2" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+  <TestDefinitions>
+    <UnitTest name="YouTube_URIRegEx_Test" storage="c:\projects\projects\seesmic videopreview plugin\biggert.seesmic.videopreview\unittests\bin\debug\unittests.dll" id="8fac5282-02b1-eb62-9222-d3d8be394697">
+      <Execution id="3e51914c-293a-475b-b6a6-338f563a39a7" />
+      <TestMethod codeBase="C:/Projects/Projects/Seesmic VideoPreview Plugin/Biggert.Seesmic.VideoPreview/UnitTests/bin/Debug/UnitTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="UnitTests.UnitTest1, UnitTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="YouTube_URIRegEx_Test" />
+    </UnitTest>
+    <UnitTest name="TwitvidWWW_URIRegEx_Test" storage="c:\projects\projects\seesmic videopreview plugin\biggert.seesmic.videopreview\unittests\bin\debug\unittests.dll" id="ea431294-afd9-9007-19f1-6d13e349bf5b">
+      <Execution id="1c3daa5e-8722-4931-b495-49f6aaf65638" />
+      <TestMethod codeBase="C:/Projects/Projects/Seesmic VideoPreview Plugin/Biggert.Seesmic.VideoPreview/UnitTests/bin/Debug/UnitTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="UnitTests.UnitTest1, UnitTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="TwitvidWWW_URIRegEx_Test" />
+    </UnitTest>
+    <UnitTest name="YouTubeShort_URIRegEx_Test" storage="c:\projects\projects\seesmic videopreview plugin\biggert.seesmic.videopreview\unittests\bin\debug\unittests.dll" id="926bd3c9-c333-187c-c2a8-a597e1867e90">
+      <Execution id="54df89f4-0c7a-447a-97f1-2563e21d9dd8" />
+      <TestMethod codeBase="C:/Projects/Projects/Seesmic VideoPreview Plugin/Biggert.Seesmic.VideoPreview/UnitTests/bin/Debug/UnitTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="UnitTests.UnitTest1, UnitTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="YouTubeShort_URIRegEx_Test" />
+    </UnitTest>
+    <UnitTest name="TwitVidWWW_VidID_Test" storage="c:\projects\projects\seesmic videopreview plugin\biggert.seesmic.videopreview\unittests\bin\debug\unittests.dll" id="cc19f64f-361f-74de-7dbe-e44b5dc86c9e">
+      <Execution id="62bd3d7f-0122-4b87-873f-ff6f79b0a5c1" />
+      <TestMethod codeBase="C:/Projects/Projects/Seesmic VideoPreview Plugin/Biggert.Seesmic.VideoPreview/UnitTests/bin/Debug/UnitTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="UnitTests.UnitTest1, UnitTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="TwitVidWWW_VidID_Test" />
+    </UnitTest>
+    <UnitTest name="YouTubeshort_VidID_Test" storage="c:\projects\projects\seesmic videopreview plugin\biggert.seesmic.videopreview\unittests\bin\debug\unittests.dll" id="3133f1ed-74d7-9ef7-c7a0-7dde16055a41">
+      <Execution id="cdee15de-f1fd-46db-8615-dd7b4208db85" />
+      <TestMethod codeBase="C:/Projects/Projects/Seesmic VideoPreview Plugin/Biggert.Seesmic.VideoPreview/UnitTests/bin/Debug/UnitTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="UnitTests.UnitTest1, UnitTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="YouTubeshort_VidID_Test" />
+    </UnitTest>
+    <UnitTest name="YouTube_VidID_Test" storage="c:\projects\projects\seesmic videopreview plugin\biggert.seesmic.videopreview\unittests\bin\debug\unittests.dll" id="462e535a-5f76-3cf4-c0dc-ccc7dbd9155a">
+      <Execution id="33b5db4c-4cbb-4c9c-8ab5-5990e322f935" />
+      <TestMethod codeBase="C:/Projects/Projects/Seesmic VideoPreview Plugin/Biggert.Seesmic.VideoPreview/UnitTests/bin/Debug/UnitTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="UnitTests.UnitTest1, UnitTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="YouTube_VidID_Test" />
+    </UnitTest>
+    <UnitTest name="Twitvid_URIRegEx_Test" storage="c:\projects\projects\seesmic videopreview plugin\biggert.seesmic.videopreview\unittests\bin\debug\unittests.dll" id="08b0a395-843e-7b08-5906-4b09506806ad">
+      <Execution id="bb6e7ba3-d3dc-4940-8739-034e35a91600" />
+      <TestMethod codeBase="C:/Projects/Projects/Seesmic VideoPreview Plugin/Biggert.Seesmic.VideoPreview/UnitTests/bin/Debug/UnitTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="UnitTests.UnitTest1, UnitTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="Twitvid_URIRegEx_Test" />
+    </UnitTest>
+    <UnitTest name="TwitVid_VidID_Test" storage="c:\projects\projects\seesmic videopreview plugin\biggert.seesmic.videopreview\unittests\bin\debug\unittests.dll" id="43d590c9-79f8-1bb3-bb25-658017893025">
+      <Execution id="9f01bfc0-3d36-4af5-888f-aedbfa7c5f20" />
+      <TestMethod codeBase="C:/Projects/Projects/Seesmic VideoPreview Plugin/Biggert.Seesmic.VideoPreview/UnitTests/bin/Debug/UnitTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="UnitTests.UnitTest1, UnitTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="TwitVid_VidID_Test" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <TestEntries>
+    <TestEntry testId="08b0a395-843e-7b08-5906-4b09506806ad" executionId="bb6e7ba3-d3dc-4940-8739-034e35a91600" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3133f1ed-74d7-9ef7-c7a0-7dde16055a41" executionId="cdee15de-f1fd-46db-8615-dd7b4208db85" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="43d590c9-79f8-1bb3-bb25-658017893025" executionId="9f01bfc0-3d36-4af5-888f-aedbfa7c5f20" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="462e535a-5f76-3cf4-c0dc-ccc7dbd9155a" executionId="33b5db4c-4cbb-4c9c-8ab5-5990e322f935" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8fac5282-02b1-eb62-9222-d3d8be394697" executionId="3e51914c-293a-475b-b6a6-338f563a39a7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="926bd3c9-c333-187c-c2a8-a597e1867e90" executionId="54df89f4-0c7a-447a-97f1-2563e21d9dd8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cc19f64f-361f-74de-7dbe-e44b5dc86c9e" executionId="62bd3d7f-0122-4b87-873f-ff6f79b0a5c1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ea431294-afd9-9007-19f1-6d13e349bf5b" executionId="1c3daa5e-8722-4931-b495-49f6aaf65638" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <Results>
+    <UnitTestResult executionId="bb6e7ba3-d3dc-4940-8739-034e35a91600" testId="08b0a395-843e-7b08-5906-4b09506806ad" testName="Twitvid_URIRegEx_Test" computerName="JOE-PDC" duration="00:00:00.0313887" startTime="2010-07-12T15:36:19.7512284-05:00" endTime="2010-07-12T15:36:20.3762642-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bb6e7ba3-d3dc-4940-8739-034e35a91600">
+    </UnitTestResult>
+    <UnitTestResult executionId="cdee15de-f1fd-46db-8615-dd7b4208db85" testId="3133f1ed-74d7-9ef7-c7a0-7dde16055a41" testName="YouTubeshort_VidID_Test" computerName="JOE-PDC" duration="00:00:00.0021984" startTime="2010-07-12T15:36:20.4432680-05:00" endTime="2010-07-12T15:36:20.4572688-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cdee15de-f1fd-46db-8615-dd7b4208db85">
+    </UnitTestResult>
+    <UnitTestResult executionId="9f01bfc0-3d36-4af5-888f-aedbfa7c5f20" testId="43d590c9-79f8-1bb3-bb25-658017893025" testName="TwitVid_VidID_Test" computerName="JOE-PDC" duration="00:00:00.0011043" startTime="2010-07-12T15:36:20.4882706-05:00" endTime="2010-07-12T15:36:20.5172722-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9f01bfc0-3d36-4af5-888f-aedbfa7c5f20">
+    </UnitTestResult>
+    <UnitTestResult executionId="33b5db4c-4cbb-4c9c-8ab5-5990e322f935" testId="462e535a-5f76-3cf4-c0dc-ccc7dbd9155a" testName="YouTube_VidID_Test" computerName="JOE-PDC" duration="00:00:00.0096476" startTime="2010-07-12T15:36:20.5442738-05:00" endTime="2010-07-12T15:36:20.5852761-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="33b5db4c-4cbb-4c9c-8ab5-5990e322f935">
+    </UnitTestResult>
+    <UnitTestResult executionId="3e51914c-293a-475b-b6a6-338f563a39a7" testId="8fac5282-02b1-eb62-9222-d3d8be394697" testName="YouTube_URIRegEx_Test" computerName="JOE-PDC" duration="00:00:00.0431126" startTime="2010-07-12T15:36:20.5932766-05:00" endTime="2010-07-12T15:36:20.6512799-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3e51914c-293a-475b-b6a6-338f563a39a7">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.IsTrue failed. </Message>
+          <StackTrace>   at UnitTests.UnitTest1.YouTube_URIRegEx_Test() in C:\Projects\Projects\Seesmic VideoPreview Plugin\Biggert.Seesmic.VideoPreview\UnitTests\UnitTest1.cs:line 27
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="54df89f4-0c7a-447a-97f1-2563e21d9dd8" testId="926bd3c9-c333-187c-c2a8-a597e1867e90" testName="YouTubeShort_URIRegEx_Test" computerName="JOE-PDC" duration="00:00:00.0074252" startTime="2010-07-12T15:36:20.6612805-05:00" endTime="2010-07-12T15:36:20.6842818-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="54df89f4-0c7a-447a-97f1-2563e21d9dd8">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.IsTrue failed. </Message>
+          <StackTrace>   at UnitTests.UnitTest1.YouTubeShort_URIRegEx_Test() in C:\Projects\Projects\Seesmic VideoPreview Plugin\Biggert.Seesmic.VideoPreview\UnitTests\UnitTest1.cs:line 41
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="62bd3d7f-0122-4b87-873f-ff6f79b0a5c1" testId="cc19f64f-361f-74de-7dbe-e44b5dc86c9e" testName="TwitVidWWW_VidID_Test" computerName="JOE-PDC" duration="00:00:00.0009632" startTime="2010-07-12T15:36:20.7572860-05:00" endTime="2010-07-12T15:36:20.7852876-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="62bd3d7f-0122-4b87-873f-ff6f79b0a5c1">
+    </UnitTestResult>
+    <UnitTestResult executionId="1c3daa5e-8722-4931-b495-49f6aaf65638" testId="ea431294-afd9-9007-19f1-6d13e349bf5b" testName="TwitvidWWW_URIRegEx_Test" computerName="JOE-PDC" duration="00:00:00.0005457" startTime="2010-07-12T15:36:20.8022885-05:00" endTime="2010-07-12T15:36:20.8182895-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1c3daa5e-8722-4931-b495-49f6aaf65638">
+    </UnitTestResult>
+  </Results>
+</TestRun>
